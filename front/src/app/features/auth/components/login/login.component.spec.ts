@@ -1,42 +1,142 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect, jest } from '@jest/globals';
+import { SessionService } from 'src/app/services/session.service';
+import { LoginComponent } from './login.component';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { of, throwError } from 'rxjs';
+
+// Import Angular Material modules utilisés dans le template
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { expect } from '@jest/globals';
-import { SessionService } from 'src/app/services/session.service';
-
-import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
+  let mockAuthService: any;
+  let sessionService: SessionService;
+  let router: Router;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    // Création du mock AuthService
+    mockAuthService = { login: jest.fn(() => of({ token: '123' })) };
+
+    TestBed.configureTestingModule({
       declarations: [LoginComponent],
-      providers: [SessionService],
       imports: [
+        ReactiveFormsModule,
         RouterTestingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
+        BrowserAnimationsModule, // requis pour Angular Material
         MatCardModule,
-        MatIconModule,
         MatFormFieldModule,
         MatInputModule,
-        ReactiveFormsModule]
-    })
-      .compileComponents();
+        MatIconModule
+      ],
+      providers: [
+        SessionService,
+        { provide: AuthService, useValue: mockAuthService }
+      ]
+    }).compileComponents();
+
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    sessionService = TestBed.inject(SessionService);
+    router = TestBed.inject(Router);
+
+    // Mocker router.navigate
+    jest.spyOn(router, 'navigate').mockImplementation(() => Promise.resolve(true));
+
     fixture.detectChanges();
   });
 
+  // Test de création du composant
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  // -----------------------
+  // Tests unitaires formulaire
+  // -----------------------
+  it('should have invalid form when empty', () => {
+    expect(component.form.valid).toBeFalsy();
+  });
+
+  it('should validate email field', () => {
+    const emailControl = component.form.get('email');
+    emailControl?.setValue('invalidEmail');
+    expect(emailControl?.valid).toBeFalsy();
+    emailControl?.setValue('test@example.com');
+    expect(emailControl?.valid).toBeTruthy();
+  });
+
+  it('should validate password field', () => {
+    const passwordControl = component.form.get('password');
+    passwordControl?.setValue('');
+    expect(passwordControl?.valid).toBeFalsy();
+    passwordControl?.setValue('123');
+    expect(passwordControl?.valid).toBeTruthy();
+  });
+
+  // -----------------------
+  // Tests unitaires submit()
+  // -----------------------
+  it('should call login and navigate on successful login', () => {
+    const loginResponse = { token: '123' };
+    mockAuthService.login.mockReturnValue(of(loginResponse));
+    const sessionSpy = jest.spyOn(sessionService, 'logIn');
+    const routerSpy = jest.spyOn(router, 'navigate');
+
+    component.form.setValue({ email: 'test@test.com', password: '123' });
+    component.submit();
+
+    expect(mockAuthService.login).toHaveBeenCalledWith({ email: 'test@test.com', password: '123' });
+    expect(sessionSpy).toHaveBeenCalledWith(loginResponse);
+    expect(routerSpy).toHaveBeenCalledWith(['/sessions']);
+  });
+
+  it('should set onError to true when login fails', () => {
+    mockAuthService.login.mockReturnValue(throwError(() => new Error('fail')));
+
+    component.form.setValue({ email: 'test@test.com', password: '123' });
+    component.submit();
+
+    expect(component.onError).toBe(true);
+  });
+
+  it('should call login even if form is invalid (current behavior)', () => {
+    component.form.setValue({ email: '', password: '' });
+    component.submit();
+    expect(mockAuthService.login).toHaveBeenCalledWith({ email: '', password: '' });
+  });
+
+  // -----------------------
+  // Tests d’intégration DOM
+  // -----------------------
+  it('should render the page title', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('mat-card-title')?.textContent).toContain('Login');
+  });
+
+  it('should render email and password fields', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('input[formControlName="email"]')).toBeTruthy();
+    expect(compiled.querySelector('input[formControlName="password"]')).toBeTruthy();
+  });
+
+  it('should render the submit button', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('button[type="submit"]')).toBeTruthy();
+  });
+
+  it('should display error message when onError is true', () => {
+    component.onError = true;
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.error')).toBeTruthy();
   });
 });

@@ -22,6 +22,9 @@ describe('SessionApiService', () => {
     httpMock.verify();
   });
 
+    // -----------------------
+  // Tests unitaires TS
+  // -----------------------
   it('should be created', () => {
     expect(service).toBeTruthy();
   });

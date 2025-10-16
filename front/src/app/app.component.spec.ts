@@ -2,9 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-// import { MatToolbarModule } from '@angular/material/toolbar';
 import { SessionService } from './services/session.service';
-// import { AuthService } from './features/auth/services/auth.service';
 import { of } from 'rxjs';
 import { expect } from '@jest/globals';
 import { NgZone, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -43,7 +41,6 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     ngZoneMock = TestBed.inject(NgZone);
-    // fixture.detectChanges();
   });
 
   // -----------------------
@@ -75,6 +72,10 @@ describe('AppComponent', () => {
   });
 });
 
+
+  // -----------------------
+  // Tests DOM
+  // -----------------------
 describe('AppComponent DOM tests', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
@@ -82,55 +83,7 @@ describe('AppComponent DOM tests', () => {
 
   beforeEach(async () => {
     sessionServiceMock = {
-      $isLogged: jest.fn().mockReturnValue(of(false)), // forcer false
-      logOut: jest.fn(),
-    };
-
-    await TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        MatToolbarModule,
-      ],
-      declarations: [AppComponent],
-      providers: [
-        { provide: SessionService, useValue: sessionServiceMock }
-      ],
-      schemas: [NO_ERRORS_SCHEMA], // ignore routerLink et autres tags inconnus
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should display toolbar title', () => {
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('mat-toolbar')?.textContent).toContain('Yoga app');
-  });
-
-  it('should display login/register links when not logged in', () => {
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-
-    expect(compiled.textContent).toContain('Login');
-    expect(compiled.textContent).toContain('Register');
-
-    // s’assurer que les liens account/logout n’apparaissent pas
-    expect(compiled.textContent).not.toContain('Sessions');
-    expect(compiled.textContent).not.toContain('Account');
-    expect(compiled.textContent).not.toContain('Logout');
-  });
-});
-
-describe('AppComponent DOM tests when logged in', () => {
-  let fixture: ComponentFixture<AppComponent>;
-  let component: AppComponent;
-  let sessionServiceMock: any;
-
-  beforeEach(async () => {
-    sessionServiceMock = {
-      $isLogged: jest.fn().mockReturnValue(of(true)), // forcer true
+      $isLogged: jest.fn().mockReturnValue(of(false)),
       logOut: jest.fn(),
     };
 
@@ -151,15 +104,57 @@ describe('AppComponent DOM tests when logged in', () => {
     component = fixture.componentInstance;
   });
 
+  it('should display toolbar title', () => {
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('mat-toolbar')?.textContent).toContain('Yoga app');
+  });
+
+  it('should display login/register links when not logged in', () => {
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Login');
+    expect(compiled.textContent).toContain('Register');
+    expect(compiled.textContent).not.toContain('Sessions');
+    expect(compiled.textContent).not.toContain('Account');
+    expect(compiled.textContent).not.toContain('Logout');
+  });
+});
+
+describe('AppComponent DOM tests when logged in', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let component: AppComponent;
+  let sessionServiceMock: any;
+
+  beforeEach(async () => {
+    sessionServiceMock = {
+      $isLogged: jest.fn().mockReturnValue(of(true)),
+      logOut: jest.fn(),
+    };
+
+    await TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        MatToolbarModule,
+      ],
+      declarations: [AppComponent],
+      providers: [
+        { provide: SessionService, useValue: sessionServiceMock }
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+    
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+  });
+
   it('should display account links when logged in', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-
     expect(compiled.textContent).toContain('Sessions');
     expect(compiled.textContent).toContain('Account');
     expect(compiled.textContent).toContain('Logout');
-
-    // s’assurer que les liens login/register n’apparaissent pas
     expect(compiled.textContent).not.toContain('Login');
     expect(compiled.textContent).not.toContain('Register');
   });

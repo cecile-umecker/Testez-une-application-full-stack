@@ -21,7 +21,6 @@ describe('FormComponent', () => {
   let fixture: ComponentFixture<FormComponent>;
   let fb: FormBuilder;
 
-  // Mocks
   const mockSessionService = {
     sessionInformation: { admin: true }
   };
@@ -79,7 +78,7 @@ describe('FormComponent', () => {
   });
 
   // -----------------------
-  // Tests unitaires
+  // Tests unitaires TS
   // -----------------------
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -134,7 +133,6 @@ describe('FormComponent', () => {
   });
 
   it('should call create on submit when not updating', () => {
-    // Arrange : formulaire valide
     component.sessionForm = fb.group({
       name: ['Test'],
       date: ['2025-01-01'],
@@ -142,11 +140,7 @@ describe('FormComponent', () => {
       description: ['desc']
     });
     component.onUpdate = false;
-
-    // Act
     component.submit();
-
-    // Assert
     expect(mockSessionApiService.create).toHaveBeenCalledWith(expect.objectContaining({
       name: 'Test'
     }));
@@ -159,7 +153,7 @@ describe('FormComponent', () => {
   });
 
   // -----------------------
-  // Tests d'intégration DOM
+  // Tests DOM
   // -----------------------
   it('should display Create session title when not updating', () => {
     component.onUpdate = false;

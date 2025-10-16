@@ -23,6 +23,9 @@ describe('SessionService', () => {
     service = TestBed.inject(SessionService);
   });
 
+  // -----------------------
+  // Tests unitaires TS
+  // -----------------------
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -36,7 +39,7 @@ describe('SessionService', () => {
 
   it('should set isLogged to true and sessionInformation on logIn', (done) => {
     service.$isLogged().pipe(first()).subscribe(valueBefore => {
-      expect(valueBefore).toBe(false); // check initial state
+      expect(valueBefore).toBe(false); 
 
       service.logIn(mockUser);
 
@@ -49,7 +52,6 @@ describe('SessionService', () => {
   });
 
   it('should set isLogged to false and clear sessionInformation on logOut', (done) => {
-    // first log in to set state
     service.logIn(mockUser);
 
     service.logOut();

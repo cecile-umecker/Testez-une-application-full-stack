@@ -23,6 +23,9 @@ describe('AuthService', () => {
     httpMock.verify();
   });
 
+  // -----------------------
+  // Tests unitaires TS
+  // -----------------------
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -36,7 +39,7 @@ describe('AuthService', () => {
     };
 
     service.register(mockRequest).subscribe(response => {
-      expect(response).toBeUndefined(); // renvoie void
+      expect(response).toBeUndefined(); 
     });
 
     const req = httpMock.expectOne('api/auth/register');

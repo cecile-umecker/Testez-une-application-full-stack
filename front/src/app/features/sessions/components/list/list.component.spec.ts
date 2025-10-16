@@ -43,7 +43,7 @@ describe('ListComponent', () => {
   });
 
   // -----------------------
-  // Tests unitaires
+  // Tests unitaires TS
   // -----------------------
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -54,7 +54,7 @@ describe('ListComponent', () => {
   });
 
   // -----------------------
-  // Tests DOM / intégration
+  // Tests DOM
   // -----------------------
   it('should display page title', () => {
     const compiled = fixture.nativeElement as HTMLElement;
@@ -80,7 +80,7 @@ describe('ListComponent', () => {
       const cardContent = card.querySelector('mat-card-content p')?.textContent;
 
       expect(cardTitle).toBe(session.name);
-      expect(cardSubtitle).toContain('Session on'); // On ne teste pas la date exacte
+      expect(cardSubtitle).toContain('Session on');
       expect(cardContent).toContain(session.description);
     });
   });

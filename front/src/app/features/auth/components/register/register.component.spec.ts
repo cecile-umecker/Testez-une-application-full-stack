@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { RegisterComponent } from './register.component';
 import { AuthService } from '../../services/auth.service';
-
-// Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -42,16 +40,13 @@ describe('RegisterComponent', () => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-
     jest.spyOn(router, 'navigate').mockImplementation(() => Promise.resolve(true));
-
     fixture.detectChanges();
   });
 
   // -----------------------
-  // Tests unitaires formulaires
+  // Tests unitaires TS
   // -----------------------
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -91,11 +86,6 @@ describe('RegisterComponent', () => {
     expect(password?.valid).toBeTruthy();
   });
 
-
-    // -----------------------
-  // Tests unitaires submit
-  // -----------------------
-
   it('should call register and navigate to /login on success', () => {
     mockAuthService.register.mockReturnValue(of({}));
     const routerSpy = jest.spyOn(router, 'navigate');
@@ -134,9 +124,8 @@ describe('RegisterComponent', () => {
   });
 
   // -----------------------
-  // Tests d’intégration DOM
+  // Tests DOM
   // -----------------------
-
   it('should display "Register" title', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('mat-card-title')?.textContent).toContain('Register');

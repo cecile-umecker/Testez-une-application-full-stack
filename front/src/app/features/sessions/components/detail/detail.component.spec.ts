@@ -20,8 +20,6 @@ describe('DetailComponent', () => {
   let component: DetailComponent;
   let fixture: ComponentFixture<DetailComponent>;
   let router: Router;
-
-  // plus aucune const partagée ici
   let sessionApiServiceMock: any;
   let teacherServiceMock: any;
   let sessionServiceMock: any;
@@ -29,7 +27,6 @@ describe('DetailComponent', () => {
   let mockTeacher: Teacher;
 
   beforeEach(() => {
-    // on redéfinit les données de base à chaque test
     mockSession = {
       id: 1,
       name: 'Intro session',
@@ -49,7 +46,6 @@ describe('DetailComponent', () => {
       updatedAt: new Date()
     };
 
-    // mocks recréés proprement à chaque beforeEach
     sessionApiServiceMock = {
       detail: jest.fn(() => of(mockSession)),
       delete: jest.fn(() => of({})),
@@ -78,12 +74,12 @@ describe('DetailComponent', () => {
       imports: [
         RouterTestingModule, 
         MatSnackBarModule, 
-        BrowserAnimationsModule, // requis pour Angular Material
+        BrowserAnimationsModule, 
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
-        NoopAnimationsModule // <-- désactive toutes les animations
+        NoopAnimationsModule 
       ],
       providers: [
         { provide: SessionService, useValue: sessionServiceMock },
@@ -102,7 +98,6 @@ describe('DetailComponent', () => {
   // -----------------------
   // Tests unitaires TS
   // -----------------------
-
   it('should create component', () => {
     expect(component).toBeTruthy();
   });
@@ -148,9 +143,8 @@ describe('DetailComponent', () => {
   }));
 
   // -----------------------
-  // Tests d’intégration DOM
+  // Tests DOM
   // -----------------------
-
   it('should render h1 title with session name', () => {
     fixture.detectChanges();
     const h1 = fixture.nativeElement.querySelector('h1') as HTMLElement;
@@ -179,7 +173,6 @@ describe('DetailComponent', () => {
     expect(attendeesSpan).toBeTruthy();
     expect(attendeesSpan!.textContent).toContain('2 attendees');
   });
-
 
   it('should render description', () => {
     fixture.detectChanges();

@@ -7,8 +7,6 @@ import { LoginComponent } from './login.component';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-
-// Import Angular Material modules utilisés dans le template
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,7 +21,6 @@ describe('LoginComponent', () => {
   let router: Router;
 
   beforeEach(() => {
-    // Création du mock AuthService
     mockAuthService = { login: jest.fn(() => of({ token: '123' })) };
 
     TestBed.configureTestingModule({
@@ -31,7 +28,7 @@ describe('LoginComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
-        BrowserAnimationsModule, // requis pour Angular Material
+        BrowserAnimationsModule, 
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
@@ -47,20 +44,16 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
     sessionService = TestBed.inject(SessionService);
     router = TestBed.inject(Router);
-
-    // Mocker router.navigate
     jest.spyOn(router, 'navigate').mockImplementation(() => Promise.resolve(true));
-
     fixture.detectChanges();
   });
 
-  // Test de création du composant
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   // -----------------------
-  // Tests unitaires formulaire
+  // Tests unitaires TS
   // -----------------------
   it('should have invalid form when empty', () => {
     expect(component.form.valid).toBeFalsy();
@@ -82,9 +75,6 @@ describe('LoginComponent', () => {
     expect(passwordControl?.valid).toBeTruthy();
   });
 
-  // -----------------------
-  // Tests unitaires submit()
-  // -----------------------
   it('should call login and navigate on successful login', () => {
     const loginResponse = { token: '123' };
     mockAuthService.login.mockReturnValue(of(loginResponse));
@@ -115,7 +105,7 @@ describe('LoginComponent', () => {
   });
 
   // -----------------------
-  // Tests d’intégration DOM
+  // Tests DOM
   // -----------------------
   it('should render the page title', () => {
     const compiled = fixture.nativeElement as HTMLElement;

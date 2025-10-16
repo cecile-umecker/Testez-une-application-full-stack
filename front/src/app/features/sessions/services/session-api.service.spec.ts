@@ -1,22 +1,147 @@
-import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { SessionApiService } from './session-api.service';
+import { Session } from '../interfaces/session.interface';
 import { expect } from '@jest/globals';
 
-import { SessionApiService } from './session-api.service';
-
-describe('SessionsService', () => {
+describe('SessionApiService', () => {
   let service: SessionApiService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
-        HttpClientModule
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [SessionApiService]
     });
+
     service = TestBed.inject(SessionApiService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should retrieve all sessions', () => {
+    const mockSessions: Session[] = [
+      {
+        id: 1,
+        name: 'Yoga débutant',
+        description: 'Cours pour débutants',
+        date: new Date(),
+        teacher_id: 101,
+        users: []
+      },
+      {
+        id: 2,
+        name: 'Yoga avancé',
+        description: 'Cours pour confirmés',
+        date: new Date(),
+        teacher_id: 102,
+        users: [1, 2]
+      }
+    ];
+
+    service.all().subscribe(sessions => {
+      expect(sessions).toEqual(mockSessions);
+      expect(sessions.length).toBe(2);
+    });
+
+    const req = httpMock.expectOne('api/session');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockSessions);
+  });
+
+  it('should get session detail', () => {
+    const mockSession: Session = {
+      id: 3,
+      name: 'Yoga Flow',
+      description: 'Cours détente',
+      date: new Date(),
+      teacher_id: 100,
+      users: [1, 2]
+    };
+
+    service.detail('3').subscribe(session => {
+      expect(session).toEqual(mockSession);
+    });
+
+    const req = httpMock.expectOne('api/session/3');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockSession);
+  });
+
+  it('should create a session', () => {
+    const newSession: Session = {
+      name: 'Yoga Doux',
+      description: 'Session pour débutants',
+      date: new Date(),
+      teacher_id: 105,
+      users: []
+    };
+
+    const createdSession = { ...newSession, id: 10 };
+
+    service.create(newSession).subscribe(session => {
+      expect(session).toEqual(createdSession);
+    });
+
+    const req = httpMock.expectOne('api/session');
+    expect(req.request.method).toBe('POST');
+    req.flush(createdSession);
+  });
+
+  it('should update a session', () => {
+    const updatedSession: Session = {
+      id: 10,
+      name: 'Yoga Doux - modifié',
+      description: 'Version révisée',
+      date: new Date(),
+      teacher_id: 105,
+      users: [1]
+    };
+
+    service.update('10', updatedSession).subscribe(session => {
+      expect(session).toEqual(updatedSession);
+    });
+
+    const req = httpMock.expectOne('api/session/10');
+    expect(req.request.method).toBe('PUT');
+    req.flush(updatedSession);
+  });
+
+  it('should delete a session', () => {
+    service.delete('10').subscribe(response => {
+      expect(response).toBeTruthy();
+    });
+
+    const req = httpMock.expectOne('api/session/10');
+    expect(req.request.method).toBe('DELETE');
+    req.flush({});
+  });
+
+  it('should participate in a session', () => {
+    service.participate('10', '5').subscribe(response => {
+      expect(response).toBeUndefined();
+    });
+
+    const req = httpMock.expectOne('api/session/10/participate/5');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toBeNull();
+    req.flush(null);
+  });
+
+  it('should unParticipate from a session', () => {
+    service.unParticipate('10', '5').subscribe(response => {
+      expect(response).toBeUndefined();
+    });
+
+    const req = httpMock.expectOne('api/session/10/participate/5');
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
   });
 });

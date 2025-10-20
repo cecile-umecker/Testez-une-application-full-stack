@@ -89,4 +89,25 @@ describe('Login spec', () => {
 
     cy.url().should('include', '/login')
   })
+
+  it('redirects to login when user is not logged in', () => {
+    // On tente d’accéder à une page protégée sans login
+    cy.visit('/sessions', { failOnStatusCode: false });
+
+    // On doit être redirigé vers /login
+    cy.url().should('include', '/login');
+  });
+
+  it('allows access when user is logged in', () => {
+    // Ici on peut utiliser le loginAs pour simuler l’utilisateur connecté
+    cy.visit('/login');
+    cy.intercept('POST', '/api/auth/login', { body: { id: 1, admin: true } }).as('login');
+    cy.get('input[formControlName=email]').type('yoga@studio.com');
+    cy.get('input[formControlName=password]').type('test!1234{enter}{enter}');
+    cy.wait('@login');
+
+    // Accès à une page protégée
+    cy.contains('span.link', 'Sessions').click();
+    cy.url().should('include', '/sessions');
+  });
 })

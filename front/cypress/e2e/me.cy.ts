@@ -70,4 +70,19 @@ describe('Account / User info spec', () => {
     // Vérifier la redirection vers login
     cy.url().should('include', '/');// Intercepter la requête DELETE
   });
+
+  it('Account page back button navigates correctly', () => {
+    // On simule un utilisateur loggé
+    loginAs(userNonAdmin);
+
+    // Aller sur la page account
+    cy.contains('span', 'Account').click();
+    cy.url().should('include', '/me');
+
+    // Cliquer sur le bouton back (flèche)
+    cy.get('button[mat-icon-button]').click();
+
+    // Vérifier la redirection
+    cy.url().should('include', '/sessions');
+  });
 });

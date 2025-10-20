@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe('Register spec', () => {
   it('Register successful', () => {
     cy.visit('/register')

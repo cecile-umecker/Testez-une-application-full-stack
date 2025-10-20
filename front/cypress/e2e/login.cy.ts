@@ -1,5 +1,7 @@
+/// <reference types="cypress" />
+
 describe('Login spec', () => {
-  it('Login successfull', () => {
+  it('Login successfull and can logout', () => {
     cy.visit('/login')
 
     cy.intercept('POST', '/api/auth/login', {
@@ -23,6 +25,21 @@ describe('Login spec', () => {
     cy.get('input[formControlName=password]').type(`${"test!1234"}{enter}{enter}`)
 
     cy.url().should('include', '/sessions')
+
+    // Cliquer sur Logout
+    cy.contains('span.link', 'Logout').click();
+
+    // Vérifier qu’on est redirigé vers login
+    cy.url().should('include', '/');
+
+    // Vérifier que les liens sessions/account/logout ont disparu
+    cy.contains('span.link', 'Account').should('not.exist');
+    cy.contains('span.link', 'Logout').should('not.exist');
+    cy.contains('span.link', 'Sessions').should('not.exist');
+
+    // Vérifier que les liens login/register sont visibles
+    cy.contains('span.link', 'Login').should('exist');
+    cy.contains('span.link', 'Register').should('exist');
   })
 
   it('Login failed', () => {

@@ -97,43 +97,31 @@ describe('Sessions spec', () => {
   it('Admin sees delete button on session detail and can delete session', () => {
     loginAs(userAdmin);
 
-    // Aller sur la page détail
     cy.contains('button', 'Detail').click();
     cy.wait('@getSessionById');
 
-    // Vérifier la présence du bouton Delete et l'absence du bouton Participate
     cy.contains('button', 'Delete').should('exist');
     cy.contains('Participate').should('not.exist');
 
-    // Intercept du DELETE avant le clic
     cy.intercept('DELETE', '/api/session/1', {}).as('deleteSession');
 
-    // Cliquer sur Delete
     cy.contains('button', 'Delete').click({ force: true });
 
-    // Attendre que la requête DELETE soit effectuée
     cy.wait('@deleteSession');
 
-    // Vérifier la redirection vers la liste des sessions
     cy.url().should('include', '/sessions');
   });
 
   it('Non-admin sees participate button and can toggle participation', () => {
     loginAs(userNonAdmin);
 
-    // Aller sur la page détail via le bouton "Detail"
     cy.contains('button', 'Detail').click();
     cy.wait('@getSessionById');
 
-    // --- Interceptions après login ---
-    // POST pour participer
     cy.intercept('POST', `/api/session/1/participate/${userNonAdmin.id}`, {}).as('participate');
-    // GET pour rafraîchir la session après participation (users = [id de l'utilisateur])
     cy.intercept('GET', '/api/session/1', { ...sessionsMock[0], users: [userNonAdmin.id] }).as('getSessionAfterParticipate');
-    // GET pour récupérer le prof
     cy.intercept('GET', '/api/teacher/1', teacherMock[0]).as('getTeacherAfterParticipate');
 
-    // Clique sur "Participate" et attendre POST + GET session + GET teacher
     cy.contains('button', 'Participate')
       .should('be.visible')
       .click({ force: true });
@@ -141,22 +129,18 @@ describe('Sessions spec', () => {
     cy.wait('@getSessionAfterParticipate');
     cy.wait('@getTeacherAfterParticipate');
 
-    // Préparer les intercepts AVANT le clic
     cy.intercept('DELETE', `/api/session/1/participate/${userNonAdmin.id}`, {}).as('unParticipate');
     cy.intercept('GET', '/api/session/1', { ...sessionsMock[0], users: [] }).as('getSessionAfterUnparticipate');
     cy.intercept('GET', '/api/teacher/1', teacherMock[0]).as('getTeacherAfterUnparticipate');
 
-    // Clique sur "Do not participate"
     cy.contains('button', 'Do not participate')
       .should('be.visible')
       .click({ force: true });
 
-    // Attendre que toutes les requêtes terminent
     cy.wait('@unParticipate');
     cy.wait('@getSessionAfterUnparticipate');
     cy.wait('@getTeacherAfterUnparticipate');
 
-    // Vérifier que le bouton "Participate" réapparaît
     cy.contains('button', 'Participate').should('be.visible');
   });
 });

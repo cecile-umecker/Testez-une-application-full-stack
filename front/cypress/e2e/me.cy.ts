@@ -60,29 +60,22 @@ describe('Account / User info spec', () => {
     cy.contains('Delete my account').should('exist');
     cy.contains('Create at:').should('exist');
     cy.contains('Last update:').should('exist');
-    // Intercepter la requête DELETE
     cy.intercept('DELETE', `/api/user/${userNonAdmin.id}`, { statusCode: 200 }).as('deleteUser');
 
-    // Cliquer sur le bouton Delete
-    cy.contains('button', 'Detail').click(); // le bouton a un <span class="ml1">Detail</span> dans ton HTML
+    cy.contains('button', 'Detail').click(); 
     cy.wait('@deleteUser');
 
-    // Vérifier la redirection vers login
-    cy.url().should('include', '/');// Intercepter la requête DELETE
+    cy.url().should('include', '/');
   });
 
   it('Account page back button navigates correctly', () => {
-    // On simule un utilisateur loggé
     loginAs(userNonAdmin);
 
-    // Aller sur la page account
     cy.contains('span', 'Account').click();
     cy.url().should('include', '/me');
 
-    // Cliquer sur le bouton back (flèche)
     cy.get('button[mat-icon-button]').click();
 
-    // Vérifier la redirection
     cy.url().should('include', '/sessions');
   });
 });

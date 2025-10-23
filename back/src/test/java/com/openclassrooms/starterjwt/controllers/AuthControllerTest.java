@@ -27,6 +27,43 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * AuthController Unit Test Suite
+ * 
+ * This test file contains unit tests for the AuthController.
+ * The AuthController handles user authentication and registration endpoints.
+ * Tests use mocked dependencies to isolate controller logic.
+ * 
+ * Test Coverage:
+ * 
+ * Login Tests:
+ * - testLoginSuccess: Tests successful login with valid credentials,
+ *   verifies JWT token generation and SessionInformation response structure
+ *   (token, type, id, username, firstName, lastName, admin)
+ * 
+ * - testLoginUserNotFound: Tests login behavior when user is not found in database,
+ *   verifies system still returns JWT token with UserDetailsImpl data (edge case test)
+ * 
+ * Registration Tests:
+ * - testRegisterSuccess: Tests successful user registration with valid data,
+ *   verifies user is saved to database with encoded password and success message is returned
+ * 
+ * - testRegisterEmailAlreadyTaken: Tests registration with existing email returns 400 status
+ *   with "Error: Email is already taken!" message, verifies user is not saved
+ * 
+ * Mocked Dependencies:
+ * - AuthenticationManager: Handles authentication process
+ * - JwtUtils: Generates JWT tokens
+ * - PasswordEncoder: Encodes user passwords
+ * - UserRepository: Database operations for user data
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Loads full application context
+ * - @AutoConfigureMockMvc(addFilters = false): Disables security filters for testing
+ * - @MockBean: Creates mock instances of dependencies
+ * - @WithMockUser: Provides authenticated context for registration tests
+ */
+
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 class AuthControllerTest {

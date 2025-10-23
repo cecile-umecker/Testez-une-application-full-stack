@@ -4,6 +4,31 @@ import { UserService } from './user.service';
 import { User } from '../interfaces/user.interface';
 import { expect } from '@jest/globals';
 
+/**
+ * UserService Test Suite
+ * 
+ * This test file contains unit tests for the UserService.
+ * The UserService handles HTTP operations related to user management.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Service creation validation
+ * - getById(id): Tests GET request to retrieve specific user from 'api/user/:id' endpoint
+ * - delete(id): Tests DELETE request to remove user from 'api/user/:id' endpoint
+ * 
+ * Methods Tested:
+ * - getById(id: string): Observable<User> - Retrieves specific user details by ID
+ * - delete(id: string): Observable<any> - Deletes user account by ID
+ * 
+ * Mock HTTP:
+ * - HttpClientTestingModule: Provides mock HTTP client for testing
+ * - HttpTestingController: Verifies HTTP requests and provides mock responses
+ * 
+ * Mock Data:
+ * - mockUser: User object with sample user data including email, name, and timestamps
+ */
+
 describe('UserService', () => {
   let service: UserService;
   let httpMock: HttpTestingController;

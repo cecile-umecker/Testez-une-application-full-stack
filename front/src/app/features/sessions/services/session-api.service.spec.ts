@@ -4,6 +4,38 @@ import { SessionApiService } from './session-api.service';
 import { Session } from '../interfaces/session.interface';
 import { expect } from '@jest/globals';
 
+/**
+ * SessionApiService Test Suite
+ * 
+ * This test file contains unit tests for the SessionApiService.
+ * The SessionApiService handles all HTTP operations related to yoga sessions including CRUD operations and user participation.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Service creation validation
+ * - all(): Tests GET request to retrieve all sessions from 'api/session' endpoint
+ * - detail(id): Tests GET request to retrieve specific session details from 'api/session/:id'
+ * - create(session): Tests POST request to create new session at 'api/session'
+ * - update(id, session): Tests PUT request to update existing session at 'api/session/:id'
+ * - delete(id): Tests DELETE request to remove session at 'api/session/:id'
+ * - participate(sessionId, userId): Tests POST request to add user to session at 'api/session/:id/participate/:userId'
+ * - unParticipate(sessionId, userId): Tests DELETE request to remove user from session at 'api/session/:id/participate/:userId'
+ * 
+ * Methods Tested:
+ * - all(): Observable<Session[]> - Retrieves all available sessions
+ * - detail(id: string): Observable<Session> - Gets specific session details
+ * - create(session: Session): Observable<Session> - Creates new session
+ * - update(id: string, session: Session): Observable<Session> - Updates existing session
+ * - delete(id: string): Observable<any> - Deletes session
+ * - participate(id: string, userId: string): Observable<void> - Adds user to session
+ * - unParticipate(id: string, userId: string): Observable<void> - Removes user from session
+ * 
+ * Mock HTTP:
+ * - HttpClientTestingModule: Provides mock HTTP client for testing
+ * - HttpTestingController: Verifies HTTP requests and provides mock responses
+ */
+
 describe('SessionApiService', () => {
   let service: SessionApiService;
   let httpMock: HttpTestingController;

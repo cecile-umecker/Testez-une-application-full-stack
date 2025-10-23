@@ -10,6 +10,34 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 
+/**
+ * MeComponent Test Suite
+ * 
+ * This test file contains unit and integration tests for the MeComponent.
+ * The MeComponent displays user profile information and allows users to delete their account.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Component creation validation
+ * - ngOnInit(): Verifies user data is fetched using UserService.getById()
+ * - back(): Tests navigation to previous page using browser history
+ * - delete(): Tests account deletion flow including service calls, snackbar notification, logout, and navigation
+ * 
+ * Integration Tests:
+ * - Display title: Verifies "User information" heading is rendered
+ * - Display name: Checks user's full name (John DOE) is displayed
+ * - Display email: Validates email address is shown
+ * - Display delete button: Ensures delete button is visible for non-admin users
+ * - Display dates: Confirms creation and update dates are rendered
+ * 
+ * Mock Services:
+ * - SessionService: Manages user session and logout
+ * - UserService: Handles user data retrieval and deletion
+ * - MatSnackBar: Displays notification messages
+ * - Router: Handles navigation
+ */
+
 describe('MeComponent', () => {
   let component: MeComponent;
   let fixture: ComponentFixture<MeComponent>;

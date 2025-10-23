@@ -1,5 +1,36 @@
 /// <reference types="cypress" />
 
+/**
+ * Account / User Info E2E Test Suite
+ * 
+ * This test file contains end-to-end tests for the user account page (/me).
+ * Tests cover user information display for both admin and non-admin users, account deletion, and navigation.
+ * 
+ * Test Coverage:
+ * 
+ * E2E Tests:
+ * - Admin sees correct user info: Tests that admin users see their complete profile information
+ *   including name, email, admin badge, and timestamps. Verifies "Delete my account" button is NOT shown.
+ * 
+ * - Non-admin sees correct user info and can delete account: Tests that non-admin users see their profile
+ *   with "Delete my account" button visible. Tests account deletion flow and redirection to home page.
+ * 
+ * - Account page back button navigates correctly: Tests that clicking the back button on the account page
+ *   navigates users back to the sessions list page.
+ * 
+ * Helper Functions:
+ * - loginAs(user): Performs login flow with provided user credentials and waits for successful authentication
+ * 
+ * Intercepted API Endpoints:
+ * - POST /api/auth/login: Mocked for user authentication
+ * - GET /api/user/:id: Mocked to return user profile information
+ * - DELETE /api/user/:id: Mocked for account deletion (non-admin only)
+ * 
+ * User Roles Tested:
+ * - Admin user: Can view profile but cannot delete account
+ * - Non-admin user: Can view profile and delete their own account
+ */
+
 describe('Account / User info spec', () => {
   const userAdmin = {
     id: 1,

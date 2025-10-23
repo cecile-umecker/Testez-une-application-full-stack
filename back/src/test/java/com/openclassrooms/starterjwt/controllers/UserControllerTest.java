@@ -18,6 +18,51 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * UserController Unit Test Suite
+ * 
+ * This test file contains unit tests for the UserController.
+ * The UserController handles user retrieval and deletion operations.
+ * Tests use mocked dependencies to isolate controller logic.
+ * 
+ * Test Coverage:
+ * 
+ * findById Tests:
+ * - testFindByIdSuccess: Tests retrieving a user by valid ID,
+ *   verifies user details (id, email, firstName, lastName) are returned with 200 OK status
+ * 
+ * - testFindByIdNotFound: Tests retrieving non-existent user returns 404 Not Found
+ * 
+ * - testFindByIdBadRequest: Tests retrieving with invalid ID format (non-numeric) returns 400 Bad Request
+ * 
+ * delete Tests:
+ * - testDeleteSuccess: Tests user can successfully delete their own account,
+ *   verifies UserService.delete() is called with correct ID
+ * 
+ * - testDeleteUnauthorized: Tests user cannot delete another user's account,
+ *   verifies 401 status and delete method is not called
+ * 
+ * - testDeleteNotFound: Tests deleting non-existent user returns 404 Not Found,
+ *   verifies delete method is not called
+ * 
+ * - testDeleteBadRequest: Tests deleting with invalid ID format returns 400 Bad Request,
+ *   verifies delete method is not called
+ * 
+ * Mocked Dependencies:
+ * - UserService: Handles business logic for user operations
+ * - UserMapper: Converts between User entities and UserDto objects
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Loads full application context
+ * - @AutoConfigureMockMvc: Auto-configures MockMvc
+ * - @MockBean: Creates mock instances of dependencies
+ * - @WithMockUser: Provides authenticated context with specific username for authorization tests
+ * 
+ * Test Data:
+ * - user: Mock User entity with id=1, email="john.doe@example.com", firstName="John", lastName="Doe"
+ * - userDto: Mock UserDto with matching data
+ */
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserControllerTest {

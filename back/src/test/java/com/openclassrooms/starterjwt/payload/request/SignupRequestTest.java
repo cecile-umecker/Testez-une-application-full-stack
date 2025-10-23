@@ -11,6 +11,85 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * SignupRequest Unit Test Suite
+ * 
+ * This test file contains unit tests for the SignupRequest DTO.
+ * The SignupRequest is used to transfer user registration data from the client to the registration endpoint.
+ * Tests verify getters/setters, Bean Validation constraints, equals/hashCode contracts, and toString() method.
+ * 
+ * Test Coverage:
+ * 
+ * Getters and Setters Tests:
+ * - testGettersAndSetters: Tests all setters store values correctly,
+ *   verifies all getters return the set values (email, firstName, lastName, password)
+ * 
+ * Validation Tests - Email:
+ * - testValidSignupRequest: Tests valid request with all fields passes validation
+ * - testEmailNotBlank: Tests @NotBlank constraint triggers violation for empty email
+ * - testEmailNull: Tests @NotBlank constraint triggers violation for null email
+ * - testEmailMaxSize: Tests @Size(max=50) constraint triggers violation for email > 50 characters
+ * - testEmailInvalidFormat: Tests @Email constraint triggers violation for invalid email format
+ * 
+ * Validation Tests - First Name:
+ * - testFirstNameNotBlank: Tests @NotBlank constraint for empty firstName
+ * - testFirstNameNull: Tests @NotBlank constraint for null firstName
+ * - testFirstNameTooShort: Tests @Size(min=3) constraint for firstName < 3 characters
+ * - testFirstNameTooLong: Tests @Size(max=20) constraint for firstName > 20 characters
+ * - testFirstNameMinSize: Tests minimum valid length (3 characters) passes validation
+ * - testFirstNameMaxSize: Tests maximum valid length (20 characters) passes validation
+ * 
+ * Validation Tests - Last Name:
+ * - testLastNameNotBlank: Tests @NotBlank constraint for empty lastName
+ * - testLastNameNull: Tests @NotBlank constraint for null lastName
+ * - testLastNameTooShort: Tests @Size(min=3) constraint for lastName < 3 characters
+ * - testLastNameTooLong: Tests @Size(max=20) constraint for lastName > 20 characters
+ * 
+ * Validation Tests - Password:
+ * - testPasswordNotBlank: Tests @NotBlank constraint for empty password
+ * - testPasswordNull: Tests @NotBlank constraint for null password
+ * - testPasswordTooShort: Tests @Size(min=6) constraint for password < 6 characters
+ * - testPasswordTooLong: Tests @Size(max=40) constraint for password > 40 characters
+ * - testPasswordMinSize: Tests minimum valid length (6 characters) passes validation
+ * - testPasswordMaxSize: Tests maximum valid length (40 characters) passes validation
+ * 
+ * Validation Tests - Multiple Fields:
+ * - testMultipleViolations: Tests all invalid fields trigger violations simultaneously (4 violations total)
+ * 
+ * Equals Tests:
+ * - testEqualsSameInstance: Tests reflexive property (object equals itself)
+ * - testEqualsIdenticalValues: Tests symmetric property with identical field values
+ * - testEqualsNull: Tests equals() returns false for null
+ * - testEqualsDifferentClass: Tests equals() returns false for different types
+ * - testEqualsDifferentEmail/FirstName/LastName/Password: Tests inequality when each field differs
+ * - testEqualsWithNullFields: Tests two instances with all null fields are equal
+ * - testEqualsOneNullFieldOneNot: Tests inequality when one field is null and other is not
+ * 
+ * HashCode Tests:
+ * - testHashCodeConsistency: Tests hashCode() returns same value on multiple calls
+ * - testHashCodeEqualObjects: Tests equal objects have equal hashCodes
+ * - testHashCodeDifferentEmail/FirstName/LastName/Password: Tests different field values produce different hashCodes
+ * - testHashCodeWithNullFields: Tests consistent hashCode for null fields
+ * 
+ * ToString Test:
+ * - testToString: Tests toString() contains all field values (email, firstName, lastName, password)
+ * 
+ * CanEquals Test:
+ * - testCanEquals: Tests canEqual() method for type compatibility check
+ * 
+ * DTO Properties and Constraints:
+ * - email: String, @NotBlank, @Size(max=50), @Email
+ * - firstName: String, @NotBlank, @Size(min=3, max=20)
+ * - lastName: String, @NotBlank, @Size(min=3, max=20)
+ * - password: String, @NotBlank, @Size(min=6, max=40)
+ * 
+ * Test Configuration:
+ * - Uses javax.validation.Validator for constraint validation testing
+ * - ValidatorFactory: Created before each test to initialize validator
+ * - Uses AssertJ for fluent assertions
+ * - Tests Bean Validation annotations, equals/hashCode contract, and toString()
+ */
+
 class SignupRequestTest {
 
     private Validator validator;

@@ -14,6 +14,66 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * SpringBootSecurityJwtApplication Integration Test Suite
+ * 
+ * This test file contains integration tests for the main Spring Boot application.
+ * Tests verify that the application context loads correctly, all critical beans are present,
+ * configuration is properly injected, and database connectivity is established.
+ * 
+ * Test Coverage:
+ * 
+ * Application Context Tests:
+ * - contextLoads: Tests Spring Boot application context loads without errors,
+ *   verifies all auto-configuration and component scanning works correctly
+ * 
+ * - testMain: Tests main() method can be executed without exceptions,
+ *   verifies application entry point is valid
+ * 
+ * Security Beans Tests:
+ * - criticalSecurityBeansAreLoaded: Tests all security-related beans are present,
+ *   verifies JwtUtils bean is loaded and not null,
+ *   confirms UserDetailsServiceImpl bean is loaded,
+ *   validates authenticationJwtTokenFilter bean exists in context
+ * 
+ * Repository Beans Tests:
+ * - repositoryBeansAreLoaded: Tests all repository beans are autowired correctly,
+ *   verifies UserRepository is not null,
+ *   confirms SessionRepository is not null,
+ *   validates TeacherRepository is not null
+ * 
+ * Configuration Tests:
+ * - jwtConfigurationIsLoaded: Tests JWT configuration properties are injected,
+ *   verifies jwtSecret is loaded from application.properties and is not empty,
+ *   confirms jwtExpirationMs is loaded and is a positive number,
+ *   validates configuration values are properly bound to JwtUtils bean
+ * 
+ * Database Connectivity Tests:
+ * - databaseConnectionIsEstablished: Tests database connection is active,
+ *   verifies UserRepository can query database (count operation),
+ *   confirms SessionRepository can query database,
+ *   validates TeacherRepository can query database,
+ *   ensures all counts are >= 0 indicating successful connection
+ * 
+ * Beans Verified:
+ * - JwtUtils: JWT token generation and validation utilities
+ * - UserDetailsServiceImpl: Spring Security user details loading service
+ * - AuthTokenFilter: JWT authentication filter (bean name: "authenticationJwtTokenFilter")
+ * - UserRepository: User entity database operations
+ * - SessionRepository: Session entity database operations
+ * - TeacherRepository: Teacher entity database operations
+ * 
+ * Configuration Properties Verified:
+ * - bezkoder.app.jwtSecret: JWT signing secret key
+ * - bezkoder.app.jwtExpirationMs: JWT token expiration time in milliseconds
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Loads full application context with all configurations
+ * - @Autowired: Injects beans and application context for testing
+ * - Uses ReflectionTestUtils to access private configuration fields in JwtUtils
+ * - Uses AssertJ for fluent assertions with descriptive messages
+ */
+
 @SpringBootTest
 class SpringBootSecurityJwtApplicationTests {
 

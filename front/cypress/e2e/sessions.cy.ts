@@ -1,5 +1,49 @@
 /// <reference types="cypress" />
 
+/**
+ * Sessions E2E Test Suite
+ * 
+ * This test file contains end-to-end tests for the sessions management functionality.
+ * Tests cover session listing, creation, editing, deletion, and user participation for both admin and non-admin users.
+ * 
+ * Test Coverage:
+ * 
+ * E2E Tests:
+ * - Admin can view list of sessions: Tests that admin users can see all available yoga sessions in the list
+ * 
+ * - Admin can create a session: Tests complete session creation flow including filling form fields
+ *   (name, date, teacher selection, description) and verifies redirection after successful creation
+ * 
+ * - Non-admin cannot create a session: Verifies that the "Create" button is not visible to non-admin users
+ * 
+ * - Admin can edit a session: Tests session update functionality by modifying session name and submitting changes
+ * 
+ * - Admin sees delete button and can delete session: Tests that admin users can view and click the delete button
+ *   on session details page, verifies deletion and redirection to sessions list
+ * 
+ * - Non-admin sees participate button and can toggle participation: Tests that non-admin users can participate
+ *   in and leave sessions, verifies button text changes between "Participate" and "Do not participate"
+ * 
+ * Helper Functions:
+ * - loginAs(user): Performs login flow and sets up all necessary API intercepts for session management
+ * 
+ * Intercepted API Endpoints:
+ * - POST /api/auth/login: User authentication
+ * - GET /api/session: Retrieve all sessions
+ * - GET /api/session/:id: Retrieve specific session details
+ * - POST /api/session: Create new session
+ * - PUT /api/session/:id: Update existing session
+ * - DELETE /api/session/:id: Delete session
+ * - GET /api/teacher: Retrieve all teachers
+ * - GET /api/teacher/:id: Retrieve specific teacher details
+ * - POST /api/session/:id/participate/:userId: Add user to session
+ * - DELETE /api/session/:id/participate/:userId: Remove user from session
+ * 
+ * User Roles Tested:
+ * - Admin: Can create, edit, delete sessions and view all details
+ * - Non-admin: Can view sessions, participate/unparticipate, but cannot create/edit/delete
+ */
+
 describe('Sessions spec', () => {
   const userAdmin = {
     id: 1,

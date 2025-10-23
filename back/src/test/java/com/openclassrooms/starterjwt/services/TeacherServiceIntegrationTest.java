@@ -13,6 +13,60 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * TeacherService Integration Test Suite
+ * 
+ * This test file contains integration tests for the TeacherService.
+ * The TeacherService handles business logic for yoga teachers including retrieval operations.
+ * Tests use real database interactions with transaction rollback.
+ * 
+ * Test Coverage:
+ * 
+ * FindAll Tests:
+ * - findAll_shouldReturnAllTeachersFromDatabase: Tests retrieving all teachers,
+ *   verifies multiple teachers are returned with correct data (firstName)
+ * 
+ * - findAll_shouldReturnListFromDatabase: Tests findAll() returns non-null list
+ * 
+ * - findAll_shouldReturnTeachersInCorrectOrder: Tests teachers are returned with proper ordering,
+ *   verifies newly added teachers are included in result set
+ * 
+ * - findAll_shouldReturnMultipleTeachersWithDifferentData: Tests list contains teachers
+ *   with different timestamps and all required fields (firstName, lastName, createdAt, updatedAt)
+ * 
+ * - findAll_afterAddingNewTeacher_shouldIncludeNewTeacher: Tests newly added teacher appears
+ *   in findAll() results, verifies list size increases
+ * 
+ * FindById Tests:
+ * - findById_shouldReturnTeacherFromDatabase: Tests retrieving specific teacher by ID,
+ *   verifies correct teacher data is returned (id, firstName, lastName)
+ * 
+ * - findById_shouldReturnNull_whenTeacherDoesNotExistInDatabase: Tests null is returned
+ *   for non-existent teacher ID
+ * 
+ * - findById_shouldReturnTeacherWithAllFields: Tests all teacher fields are returned
+ *   (id, firstName, lastName, createdAt, updatedAt)
+ * 
+ * - findById_shouldHandleSpecialCharactersInTeacherData: Tests handling of special characters
+ *   (accents, apostrophes, hyphens) in teacher names (François, O'Connor-Müller)
+ * 
+ * - findById_multipleTimesForSameTeacher_shouldReturnSameData: Tests data consistency
+ *   across multiple findById() calls for same teacher
+ * 
+ * TeacherService Methods Tested:
+ * - findAll(): Retrieves all teachers from database
+ * - findById(Long): Finds specific teacher by ID
+ * 
+ * Dependencies:
+ * - TeacherRepository: Database operations for teachers
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Full application context loading
+ * - @Transactional: Rolls back database changes after each test
+ * - @DirtiesContext: Resets application context for each test to ensure isolation
+ * - Uses real database with cleanup to ensure test independence
+ */
+
 @SpringBootTest
 @Transactional
 class TeacherServiceIntegrationTest {

@@ -21,6 +21,66 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * AuthController Integration Test Suite
+ * 
+ * This test file contains integration tests for the AuthController.
+ * The AuthController handles user authentication and registration endpoints.
+ * 
+ * Test Coverage:
+ * 
+ * Login Tests:
+ * - login_shouldReturnJwtToken_whenCredentialsAreValid: Tests successful login with valid credentials,
+ *   verifies JWT token generation and SessionInformation response (token, type, id, username, firstName, lastName, admin)
+ * 
+ * - login_shouldReturnUnauthorized_whenPasswordIsInvalid: Tests login with incorrect password returns 401 status
+ * 
+ * - login_shouldReturnUnauthorized_whenUserDoesNotExist: Tests login with non-existent email returns 401 status
+ * 
+ * - login_shouldReturnAdminTrue_whenUserIsAdmin: Verifies admin flag is correctly set in JWT response for admin users
+ * 
+ * - login_shouldHandleSpecialCharactersInCredentials: Tests login with special characters (accents, apostrophes) in email and name
+ * 
+ * - login_shouldFailWithBadRequest_whenEmailIsEmpty: Tests validation for empty email field returns 400 status
+ * 
+ * - login_shouldFailWithBadRequest_whenPasswordIsEmpty: Tests validation for empty password field returns 400 status
+ * 
+ * - login_multipleTimes_shouldReturnDifferentTokens: Verifies each login generates a unique JWT token
+ * 
+ * Registration Tests:
+ * - register_shouldCreateNewUser_whenEmailIsNotTaken: Tests successful user registration with valid data,
+ *   verifies user is created in database with encoded password and default admin=false
+ * 
+ * - register_shouldReturnBadRequest_whenEmailAlreadyExists: Tests registration with existing email returns 400 status
+ *   with "Error: Email is already taken!" message
+ * 
+ * - register_shouldEncodePassword_whenCreatingUser: Verifies password is BCrypt encoded (not stored as plain text)
+ * 
+ * - register_shouldSetAdminToFalse_byDefault: Verifies new users are created as non-admin by default
+ * 
+ * - register_shouldHandleSpecialCharactersInUserData: Tests registration with special characters in name and email
+ * 
+ * - register_shouldSetCreatedAndUpdatedTimestamps: Verifies createdAt and updatedAt timestamps are set on user creation
+ * 
+ * - register_shouldFailWithBadRequest_whenEmailIsInvalid: Tests validation for invalid email format returns 400 status
+ * 
+ * - register_shouldFailWithBadRequest_whenFieldsAreMissing: Tests validation for missing required fields returns 400 status
+ * 
+ * - register_andThenLogin_shouldWorkCorrectly: Integration test verifying complete registration and login flow
+ * 
+ * Dependencies:
+ * - MockMvc: For simulating HTTP requests
+ * - ObjectMapper: For JSON serialization/deserialization
+ * - UserRepository: For database operations
+ * - PasswordEncoder: For password encryption verification
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Full application context loading
+ * - @AutoConfigureMockMvc: Auto-configures MockMvc
+ * - @Transactional: Rolls back database changes after each test
+ * - @DirtiesContext: Resets application context when needed
+ */
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional

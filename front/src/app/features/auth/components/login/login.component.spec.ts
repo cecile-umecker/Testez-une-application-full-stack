@@ -13,6 +13,35 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+/**
+ * LoginComponent Test Suite
+ * 
+ * This test file contains unit and integration tests for the LoginComponent.
+ * The LoginComponent handles user authentication through a login form.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Component creation validation
+ * - Form validation when empty: Verifies form is invalid without input
+ * - Email field validation: Tests email format validation (invalid/valid formats)
+ * - Password field validation: Tests password required validation
+ * - submit() with successful login: Verifies AuthService.login() call, session creation, and navigation to /sessions
+ * - submit() with failed login: Tests error handling and onError flag is set to true
+ * - submit() with invalid form: Verifies login is called even with invalid form data (current behavior)
+ * 
+ * Integration Tests:
+ * - Render page title: Verifies "Login" title is displayed
+ * - Render form fields: Checks email and password input fields are rendered
+ * - Render submit button: Ensures submit button is present
+ * - Display error message: Validates error message appears when onError is true
+ * 
+ * Mock Services:
+ * - AuthService: Handles user authentication
+ * - SessionService: Manages user session after login
+ * - Router: Handles navigation after successful login
+ */
+
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;

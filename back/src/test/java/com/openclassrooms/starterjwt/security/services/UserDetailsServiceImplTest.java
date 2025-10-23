@@ -13,6 +13,50 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * UserDetailsServiceImpl Unit Test Suite
+ * 
+ * This test file contains unit tests for the UserDetailsServiceImpl class.
+ * The UserDetailsServiceImpl implements Spring Security's UserDetailsService interface
+ * and is responsible for loading user-specific data during authentication.
+ * 
+ * Test Coverage:
+ * 
+ * loadUserByUsername Tests:
+ * - loadUserByUsername_UserFound_ReturnsUserDetails: Tests successful user lookup by email,
+ *   verifies UserRepository.findByEmail() is called with correct email,
+ *   confirms UserDetailsImpl is returned with all user fields mapped correctly
+ *   (id, username/email, password, firstName, lastName),
+ *   validates UserDetails interface implementation
+ * 
+ * - loadUserByUsername_UserNotFound_ThrowsException: Tests behavior when user is not found,
+ *   verifies UsernameNotFoundException is thrown with descriptive message,
+ *   confirms error message contains the email that was not found
+ * 
+ * UserDetailsServiceImpl Responsibilities:
+ * 1. Load user from database by email address
+ * 2. Convert User entity to UserDetailsImpl (Spring Security UserDetails)
+ * 3. Throw UsernameNotFoundException if user doesn't exist
+ * 4. Provide user data for Spring Security authentication process
+ * 
+ * Mocked Dependencies:
+ * - UserRepository: Provides database access for user lookup by email
+ * 
+ * Test Configuration:
+ * - Uses Mockito for mocking UserRepository
+ * - Uses AssertJ for fluent assertions
+ * - Uses JUnit Jupiter for exception testing (assertThrows)
+ * - Tests Spring Security UserDetailsService.loadUserByUsername() implementation
+ * 
+ * Data Mapping Verified:
+ * - User.id → UserDetailsImpl.id
+ * - User.email → UserDetailsImpl.username (Spring Security convention)
+ * - User.password → UserDetailsImpl.password
+ * - User.firstName → UserDetailsImpl.firstName
+ * - User.lastName → UserDetailsImpl.lastName
+ * - User.admin → UserDetailsImpl.admin
+ */
+
 class UserDetailsServiceImplTest {
 
     private UserRepository userRepository;

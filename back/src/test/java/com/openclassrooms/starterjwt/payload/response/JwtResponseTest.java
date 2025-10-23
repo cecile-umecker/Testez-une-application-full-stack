@@ -4,6 +4,73 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * JwtResponse Unit Test Suite
+ * 
+ * This test file contains unit tests for the JwtResponse DTO.
+ * The JwtResponse is used to return JWT authentication tokens and user information
+ * to the client after successful login.
+ * 
+ * Test Coverage:
+ * 
+ * Constructor Tests:
+ * - testConstructor: Tests 6-parameter constructor creates response with all fields,
+ *   verifies default type is "Bearer"
+ * 
+ * - testConstructorWithNullValues: Tests constructor handles null values for all fields,
+ *   verifies type defaults to "Bearer" even with null inputs
+ * 
+ * - testConstructorWithAdminFalse: Tests admin flag can be set to false
+ * 
+ * - testConstructorWithEmptyStrings: Tests constructor handles empty strings and zero values
+ * 
+ * - testConstructorWithLongToken: Tests constructor handles very long token strings (500 chars)
+ * 
+ * - testConstructorWithSpecialCharacters: Tests handling of special characters in all string fields
+ *   (special chars in token, plus sign in email, umlauts and hyphens in names)
+ * 
+ * Getter Tests:
+ * - testDefaultTypeValue: Tests getType() returns "Bearer" by default
+ * 
+ * - testGettersReturnCorrectValues: Tests all getters return values set in constructor
+ * 
+ * - testGettersDoNotModifyState: Tests getters are side-effect free and don't modify internal state
+ * 
+ * Setter Tests:
+ * - testSetToken: Tests setToken() updates token value
+ * - testSetType: Tests setType() can override default "Bearer" value
+ * - testSetId: Tests setId() updates user ID
+ * - testSetUsername: Tests setUsername() updates username/email
+ * - testSetFirstName: Tests setFirstName() updates first name
+ * - testSetLastName: Tests setLastName() updates last name
+ * - testSetAdmin: Tests setAdmin() updates admin flag
+ * 
+ * - testSettersWithNullValues: Tests all setters accept null values
+ * 
+ * - testMultipleSettersChained: Tests multiple setters can be called sequentially
+ *   to update all fields
+ * 
+ * - testSettersOverwriteConstructorValues: Tests setters can override initial constructor values
+ * 
+ * Type Field Tests:
+ * - testTypeDefaultValueNotOverriddenByConstructor: Tests type field always defaults to "Bearer"
+ *   regardless of constructor parameters
+ * 
+ * DTO Properties:
+ * - token: JWT authentication token (String)
+ * - type: Token type, defaults to "Bearer" (String)
+ * - id: User ID (Long)
+ * - username: User's email/username (String)
+ * - firstName: User's first name (String)
+ * - lastName: User's last name (String)
+ * - admin: Admin privilege flag (Boolean)
+ * 
+ * Test Configuration:
+ * - Uses AssertJ for fluent assertions
+ * - Tests constructor with various inputs, all getters and setters
+ * - Validates default "Bearer" type value behavior
+ */
+
 class JwtResponseTest {
 
     @Test

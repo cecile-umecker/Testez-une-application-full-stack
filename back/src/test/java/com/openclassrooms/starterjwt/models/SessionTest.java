@@ -6,6 +6,60 @@ import java.util.Date;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Session Model Unit Test Suite
+ * 
+ * This test file contains unit tests for the Session entity model.
+ * The Session model represents a yoga session with associated teacher and participating users.
+ * Tests verify builder pattern, getters/setters, equals/hashCode contracts, and method chaining.
+ * 
+ * Test Coverage:
+ * 
+ * Builder and Getters/Setters Tests:
+ * - testBuilderAndGettersSetters: Tests Session.builder() creates entity with all fields,
+ *   verifies getters return correct values, tests setter method chaining,
+ *   validates equals/hashCode based on ID, and checks toString() output
+ * 
+ * Individual Setter Tests:
+ * - testSetDate: Tests setDate() with valid dates and null value
+ * 
+ * - testSetTeacher: Tests setTeacher() with different teachers and null value
+ * 
+ * - testSetCreatedAt: Tests setCreatedAt() with different timestamps and null value
+ * 
+ * - testSetUpdatedAt: Tests setUpdatedAt() with different timestamps and null value
+ * 
+ * Equals and HashCode Tests:
+ * - testHashCodeAndEqualsWithNullId: Tests sessions with null IDs are considered equal,
+ *   verifies consistent hashCode for null IDs
+ * 
+ * - testEqualsWithNullAndDifferentType: Tests equals() returns false for null and different types,
+ *   verifies reflexive property (session.equals(session) is true)
+ * 
+ * - testHashCodeConsistency: Tests hashCode() returns same value on multiple calls,
+ *   verifies hashCode remains consistent when non-ID fields change
+ * 
+ * - testHashCodeDifferentForDifferentIds: Tests sessions with different IDs have different hashCodes
+ * 
+ * Setter Chaining Test:
+ * - testSettersChaining: Tests all setters return the Session instance for method chaining,
+ *   verifies fluent API pattern works correctly
+ * 
+ * Entity Properties Tested:
+ * - id: Unique identifier (Long)
+ * - name: Session name (String)
+ * - date: Session date (Date)
+ * - description: Session description (String)
+ * - teacher: Associated teacher (Teacher entity)
+ * - users: List of participating users (List<User>)
+ * - createdAt: Creation timestamp (LocalDateTime)
+ * - updatedAt: Last update timestamp (LocalDateTime)
+ * 
+ * Test Configuration:
+ * - Uses AssertJ for fluent assertions
+ * - Tests builder pattern, setters, equals/hashCode contract, and toString()
+ */
+
 class SessionTest {
 
     @Test

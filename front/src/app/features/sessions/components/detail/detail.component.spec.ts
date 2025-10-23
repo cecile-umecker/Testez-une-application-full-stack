@@ -16,6 +16,38 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+/**
+ * DetailComponent Test Suite
+ * 
+ * This test file contains unit and integration tests for the DetailComponent.
+ * The DetailComponent displays detailed information about a yoga session and allows users to participate/unparticipate.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Component creation validation
+ * - back(): Tests navigation to previous page using browser history
+ * - delete(): Verifies session deletion via SessionApiService and navigation to /sessions
+ * - participate(): Tests user participation in session and session data refresh
+ * - unParticipate(): Tests user leaving session and session data refresh
+ * - ngOnInit(): Validates session and teacher data fetching, and isParticipate flag calculation
+ * 
+ * Integration Tests:
+ * - Render session name: Verifies session title is displayed in h1 (capitalized)
+ * - Render Delete button: Checks delete button is visible for admin users
+ * - Render teacher name: Validates teacher's name is displayed in uppercase
+ * - Render attendees count: Confirms number of participants is shown
+ * - Render description: Ensures session description is displayed
+ * - Render dates: Verifies createdAt and updatedAt timestamps are rendered
+ * 
+ * Mock Services:
+ * - SessionService: Manages user session information
+ * - SessionApiService: Handles session CRUD operations and participation
+ * - TeacherService: Retrieves teacher details
+ * - ActivatedRoute: Provides route parameters (session ID)
+ * - Router: Handles navigation after deletion
+ */
+
 describe('DetailComponent', () => {
   let component: DetailComponent;
   let fixture: ComponentFixture<DetailComponent>;

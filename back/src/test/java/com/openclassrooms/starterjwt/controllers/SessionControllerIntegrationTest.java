@@ -25,6 +25,74 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * SessionController Integration Test Suite
+ * 
+ * This test file contains integration tests for the SessionController.
+ * The SessionController handles CRUD operations for yoga sessions and user participation management.
+ * Tests use real database interactions with cleanup after each test.
+ * 
+ * Test Coverage:
+ * 
+ * Session CRUD Tests:
+ * - testFindByIdIntegration: Tests retrieving a specific session by ID,
+ *   verifies session details (id, name, description) are returned correctly
+ * 
+ * - testFindAllIntegration: Tests retrieving all sessions,
+ *   verifies list contains at least one session and specific session exists
+ * 
+ * - testCreateIntegration: Tests creating a new session with valid data (name, date, teacher_id, description),
+ *   verifies session is saved and returned with correct values
+ * 
+ * - testUpdateIntegration: Tests updating an existing session,
+ *   verifies updated values are persisted and returned
+ * 
+ * - testDeleteIntegration: Tests deleting a session by ID,
+ *   verifies session is removed and subsequent GET returns 404
+ * 
+ * Participation Tests:
+ * - testParticipateIntegration: Tests adding a user to a session,
+ *   verifies user is added to session's users list
+ * 
+ * - testNoLongerParticipateIntegration: Tests removing a user from a session,
+ *   verifies user is removed from session's users list
+ * 
+ * - testParticipateAlreadyParticipating: Tests adding same user twice returns 400 Bad Request
+ * 
+ * - testNoLongerParticipateUserNotParticipating: Tests removing non-participating user returns 400 Bad Request
+ * 
+ * Error Handling Tests:
+ * - testCreateWithInvalidDataIntegration: Tests creating session with empty name returns 400 Bad Request
+ * 
+ * - testFindByIdNotFound: Tests retrieving non-existent session returns 404 Not Found
+ * 
+ * - testParticipateSessionNotFound: Tests participation with non-existent session returns 404
+ * 
+ * - testParticipateUserNotFound: Tests participation with non-existent user returns 404
+ * 
+ * - testNoLongerParticipateSessionNotFound: Tests leaving non-existent session returns 404
+ * 
+ * - testDeleteInvalidId: Tests deleting with invalid ID format returns 400 Bad Request
+ * 
+ * - testFindByIdInvalidId: Tests retrieving with invalid ID format returns 400 Bad Request
+ * 
+ * Test Setup:
+ * - @BeforeEach: Creates test data (teacher, user, session) before each test
+ * - @AfterEach: Cleans up database by deleting all test data
+ * 
+ * Dependencies:
+ * - MockMvc: For simulating HTTP requests
+ * - ObjectMapper: For JSON serialization/deserialization
+ * - SessionRepository: For session database operations
+ * - TeacherRepository: For teacher database operations
+ * - UserRepository: For user database operations
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Full application context loading
+ * - @AutoConfigureMockMvc: Auto-configures MockMvc
+ * - @WithMockUser: Provides authenticated context for all tests
+ */
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class SessionControllerIntegrationTest {

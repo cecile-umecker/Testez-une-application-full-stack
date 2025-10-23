@@ -18,6 +18,66 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * TeacherController Integration Test Suite
+ * 
+ * This test file contains integration tests for the TeacherController.
+ * The TeacherController handles retrieval operations for yoga teachers.
+ * Tests use real database interactions with cleanup after each test.
+ * 
+ * Test Coverage:
+ * 
+ * findById Tests:
+ * - findById_shouldReturnTeacher_whenTeacherExists: Tests retrieving a specific teacher by ID,
+ *   verifies teacher details (id, firstName, lastName) are returned correctly
+ * 
+ * - findById_shouldReturnNotFound_whenTeacherDoesNotExist: Tests retrieving non-existent teacher returns 404 Not Found
+ * 
+ * - findById_shouldReturnBadRequest_whenIdIsInvalid: Tests retrieving with invalid ID format returns 400 Bad Request
+ * 
+ * - findById_shouldHandleSpecialCharacters_inTeacherName: Tests handling special characters (accents, apostrophes, hyphens)
+ *   in teacher names (François, O'Connor-Müller)
+ * 
+ * - findById_shouldReturnCompleteTeacherData: Tests that all teacher fields are returned (id, firstName, lastName, createdAt, updatedAt)
+ * 
+ * - findById_multipleTimes_shouldReturnSameData: Tests data consistency across multiple requests
+ * 
+ * - findById_shouldReturnNotFound_forNegativeId: Tests negative ID returns 404
+ * 
+ * - findById_shouldReturnNotFound_forZeroId: Tests zero ID returns 404
+ * 
+ * - findById_shouldReturnUnauthorized_whenNotAuthenticated: Tests unauthenticated access returns 401
+ * 
+ * findAll Tests:
+ * - findAll_shouldReturnAllTeachers: Tests retrieving all teachers,
+ *   verifies list contains all created teachers with correct data
+ * 
+ * - findAll_shouldReturnEmptyArray_whenNoTeachersExist: Tests empty list is returned when no teachers exist
+ * 
+ * - findAll_shouldReturnTeachersInCorrectFormat: Tests response format includes all required fields
+ * 
+ * - findAll_shouldReturnTeachersWithAllFields: Tests all teacher fields are included in response
+ * 
+ * - findAll_shouldHandleLargeNumberOfTeachers: Tests performance with 10+ teachers
+ * 
+ * - findAll_afterAddingTeacher_shouldIncludeNewTeacher: Tests newly added teacher appears in list
+ * 
+ * - findAll_shouldReturnTeachersOrderedById: Tests teachers are returned with proper ID ordering
+ * 
+ * - findAll_shouldReturnUnauthorized_whenNotAuthenticated: Tests unauthenticated access returns 401
+ * 
+ * Dependencies:
+ * - MockMvc: For simulating HTTP requests
+ * - TeacherRepository: For teacher database operations
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Full application context loading
+ * - @AutoConfigureMockMvc: Auto-configures MockMvc
+ * - @Transactional: Rolls back database changes after each test
+ * - @DirtiesContext: Resets application context when needed
+ * - @WithMockUser: Provides authenticated context for authorized tests
+ */
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional

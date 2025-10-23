@@ -6,6 +6,44 @@ import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * MessageResponse Unit Test Suite
+ * 
+ * This test file contains unit tests for the MessageResponse DTO.
+ * The MessageResponse is used to return simple text messages to the client,
+ * typically for success/error notifications after operations like registration.
+ * 
+ * Test Coverage:
+ * 
+ * Constructor Tests:
+ * - testConstructorSetsMessage: Tests 1-parameter constructor creates response with message,
+ *   verifies message is correctly initialized and instance is not null
+ * 
+ * Getter Tests:
+ * - testGetMessage: Tests getMessage() returns the value set in constructor,
+ *   verifies getter correctly retrieves the stored message
+ * 
+ * Setter Tests:
+ * - testSetMessage: Tests setMessage() updates message value,
+ *   verifies setter correctly modifies the stored message
+ * 
+ * - testSetMessageToNull: Tests setMessage() accepts null values,
+ *   verifies message can be set to null without errors
+ * 
+ * Mockito Tests:
+ * - testWithMockitoMock: Tests Mockito mock interaction for complete test coverage,
+ *   verifies mocking behavior with when-thenReturn pattern and verify() method
+ * 
+ * DTO Properties:
+ * - message: Response message text (String)
+ * 
+ * Test Configuration:
+ * - Uses JUnit Jupiter assertions (assertEquals, assertNotNull, assertNull)
+ * - Uses @DisplayName for French test descriptions
+ * - Uses Mockito for mock testing coverage
+ * - Tests constructor, getter, setter, and null handling
+ */
+
 class MessageResponseTest {
 
     @Test

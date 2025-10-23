@@ -6,6 +6,98 @@ import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * UserDetailsImpl Unit Test Suite
+ * 
+ * This test file contains unit tests for the UserDetailsImpl class.
+ * The UserDetailsImpl is a custom implementation of Spring Security's UserDetails interface,
+ * representing authenticated user information with additional application-specific fields.
+ * 
+ * Test Coverage:
+ * 
+ * Builder Pattern Tests:
+ * - testBuilderAndGetters: Tests builder with all fields set,
+ *   verifies getters return correct values (id, username, firstName, lastName, password, admin)
+ * 
+ * - testBuilderIndividualSetters: Tests builder setters called individually,
+ *   verifies each setter works correctly before build() is called
+ * 
+ * - testBuilderPartialFields: Tests builder with only some fields set,
+ *   verifies unset fields are null after build
+ * 
+ * - testBuilderWithNullValues: Tests builder explicitly set with null values,
+ *   verifies null values are preserved
+ * 
+ * - testBuilderEmptyBuild: Tests builder without any fields set,
+ *   verifies all fields are null in resulting object
+ * 
+ * - testBuilderToString: Tests builder's toString() method contains class name
+ * 
+ * - testBuilderChaining: Tests fluent API chaining of builder methods,
+ *   verifies all fields can be set in single chain
+ * 
+ * - testMultipleBuildersIndependence: Tests multiple builders are independent,
+ *   verifies changes to one builder don't affect another
+ * 
+ * Constructor Tests:
+ * - testAllArgsConstructor: Tests 6-parameter constructor with all values,
+ *   verifies all fields are correctly initialized (id, username, firstName, lastName, admin, password)
+ * 
+ * - testAllArgsConstructorWithNulls: Tests constructor accepts null values for all parameters,
+ *   verifies null handling in constructor
+ * 
+ * Getter Tests:
+ * - testGettersReturnCorrectValues: Tests all getters return values set via builder,
+ *   verifies getter methods work correctly for each field
+ * 
+ * Spring Security UserDetails Methods Tests:
+ * - testAuthoritiesAndAccountStatus: Tests Spring Security interface methods,
+ *   verifies getAuthorities() returns empty collection,
+ *   confirms all account status methods return true (non-expired, non-locked, enabled)
+ * 
+ * - testAuthoritiesAlwaysEmpty: Tests authorities collection is always empty for all users
+ * 
+ * - testAccountStatusAlwaysTrue: Tests all account status flags are always true
+ * 
+ * Equals Tests:
+ * - testEquals: Tests equals() based on ID field only,
+ *   verifies users with same ID are equal regardless of other fields,
+ *   confirms users with different IDs are not equal,
+ *   validates null and different class comparisons return false
+ * 
+ * - testEqualsSameInstance: Tests reflexive property (object equals itself)
+ * 
+ * - testEqualsWithNullIds: Tests users with null IDs are considered equal
+ * 
+ * - testEqualsNullIdVsNonNullId: Tests user with null ID not equal to user with non-null ID
+ * 
+ * - testEqualsDifferentClass: Tests equals() returns false for different types
+ * 
+ * - testEqualsWithDifferentFieldsSameId: Tests equality depends only on ID,
+ *   verifies other fields (username, firstName, lastName, password, admin) don't affect equality
+ * 
+ * UserDetailsImpl Properties:
+ * - id: User's unique identifier (Long)
+ * - username: User's email/username (String) - implements UserDetails.getUsername()
+ * - firstName: User's first name (String)
+ * - lastName: User's last name (String)
+ * - password: User's encrypted password (String) - implements UserDetails.getPassword()
+ * - admin: Admin privilege flag (Boolean)
+ * 
+ * Spring Security UserDetails Interface Methods:
+ * - getAuthorities(): Returns empty collection (no role-based authorities)
+ * - isAccountNonExpired(): Always returns true
+ * - isAccountNonLocked(): Always returns true
+ * - isCredentialsNonExpired(): Always returns true
+ * - isEnabled(): Always returns true
+ * 
+ * Test Configuration:
+ * - Uses AssertJ for fluent assertions
+ * - Tests Lombok-generated builder pattern and all-args constructor
+ * - Validates equals() contract based on ID field only
+ * - Tests Spring Security UserDetails interface implementation
+ */
+
 class UserDetailsImplTest {
 
     @Test

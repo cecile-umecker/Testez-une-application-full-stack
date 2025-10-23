@@ -18,6 +18,60 @@ import javax.servlet.FilterChain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+/**
+ * AuthTokenFilter Unit Test Suite
+ * 
+ * This test file contains unit tests for the AuthTokenFilter.
+ * The AuthTokenFilter is a Spring Security filter that intercepts HTTP requests to validate JWT tokens
+ * and establish authentication context for authenticated users.
+ * 
+ * Test Coverage:
+ * 
+ * doFilterInternal Tests:
+ * - testDoFilterInternal_WithValidToken: Tests successful JWT validation and authentication,
+ *   verifies JWT is extracted from Authorization header, validated, username extracted,
+ *   UserDetails loaded, Authentication set in SecurityContext, and filter chain continues
+ * 
+ * - testDoFilterInternal_WithInvalidToken: Tests handling of invalid JWT token,
+ *   verifies authentication is not set in SecurityContext when token validation fails,
+ *   confirms filter chain continues despite invalid token
+ * 
+ * - testDoFilterInternal_WithNoToken: Tests request without Authorization header,
+ *   verifies authentication is not set when no token is present,
+ *   confirms filter chain continues normally
+ * 
+ * - testDoFilterInternal_WithException: Tests exception handling during token validation,
+ *   verifies authentication is not set when exception occurs,
+ *   confirms filter chain continues even after exception (graceful degradation)
+ * 
+ * parseJwt Tests:
+ * - testParseJwt: Tests private parseJwt() method using reflection,
+ *   verifies JWT token is correctly extracted from "Bearer " prefix,
+ *   tests null is returned when Authorization header is missing,
+ *   tests null is returned when Authorization header has invalid format (no "Bearer " prefix)
+ * 
+ * Filter Responsibilities:
+ * 1. Extract JWT token from Authorization header (Bearer scheme)
+ * 2. Validate JWT token using JwtUtils
+ * 3. Extract username from valid token
+ * 4. Load UserDetails using UserDetailsServiceImpl
+ * 5. Create and set Authentication in SecurityContext
+ * 6. Continue filter chain execution
+ * 7. Handle exceptions gracefully without blocking requests
+ * 
+ * Mocked Dependencies:
+ * - JwtUtils: Validates JWT tokens and extracts username
+ * - UserDetailsServiceImpl: Loads user details by username
+ * - FilterChain: Represents remaining filter chain execution
+ * 
+ * Test Configuration:
+ * - Uses Mockito for mocking dependencies (@Mock, @InjectMocks)
+ * - Uses MockHttpServletRequest and MockHttpServletResponse for HTTP simulation
+ * - Uses SecurityContextHolder for authentication context testing
+ * - Uses Java Reflection to test private parseJwt() method
+ * - Clears SecurityContext before each test to ensure isolation
+ */
+
 class AuthTokenFilterTest {
 
     @InjectMocks

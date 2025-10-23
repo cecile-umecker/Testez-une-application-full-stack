@@ -20,6 +20,77 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * UserController Integration Test Suite
+ * 
+ * This test file contains integration tests for the UserController.
+ * The UserController handles user retrieval and deletion operations.
+ * Tests use real database interactions with cleanup after each test.
+ * 
+ * Test Coverage:
+ * 
+ * findById Tests:
+ * - findById_shouldReturnUser_whenUserExists: Tests retrieving a specific user by ID,
+ *   verifies user details (id, email, firstName, lastName, admin) are returned correctly
+ * 
+ * - findById_shouldReturnNotFound_whenUserDoesNotExist: Tests retrieving non-existent user returns 404 Not Found
+ * 
+ * - findById_shouldReturnBadRequest_whenIdIsInvalid: Tests retrieving with invalid ID format returns 400 Bad Request
+ * 
+ * - findById_shouldReturnAdminUser_whenUserIsAdmin: Tests admin flag is correctly returned for admin users
+ * 
+ * - findById_shouldHandleSpecialCharacters_inUserData: Tests handling special characters (accents, apostrophes, hyphens)
+ *   in user names and emails (François, Müller-O'Connor)
+ * 
+ * - findById_shouldReturnCompleteUserData: Tests all user fields are returned (id, email, firstName, lastName, admin, createdAt, updatedAt)
+ * 
+ * - findById_shouldNotReturnPassword_inResponse: Tests password field is excluded from response for security
+ * 
+ * - findById_shouldReturnNotFound_forNegativeId: Tests negative ID returns 404
+ * 
+ * - findById_shouldReturnNotFound_forZeroId: Tests zero ID returns 404
+ * 
+ * - findById_multipleTimes_shouldReturnSameData: Tests data consistency across multiple requests
+ * 
+ * - findById_shouldHandleLongNames: Tests handling of long first and last names
+ * 
+ * - findById_shouldHandleLongEmail: Tests handling of long email addresses
+ * 
+ * - findById_shouldReturnUser_withUniqueEmail: Tests email uniqueness constraint
+ * 
+ * - findById_shouldReturnUnauthorized_whenNotAuthenticated: Tests unauthenticated access returns 401
+ * 
+ * delete Tests:
+ * - delete_shouldDeleteUser_whenUserDeletesOwnAccount: Tests user can successfully delete their own account,
+ *   verifies user is removed from database
+ * 
+ * - delete_shouldReturnUnauthorized_whenUserTriesToDeleteOtherAccount: Tests user cannot delete another user's account,
+ *   verifies 401 status and target user remains in database
+ * 
+ * - delete_shouldReturnUnauthorized_whenAdminTriesToDeleteOtherUser: Tests even admin cannot delete other users' accounts,
+ *   verifies authorization rules are enforced
+ * 
+ * - delete_shouldReturnNotFound_whenUserDoesNotExist: Tests deleting non-existent user returns 404
+ * 
+ * - delete_shouldReturnBadRequest_whenIdIsInvalid: Tests deleting with invalid ID format returns 400
+ * 
+ * - delete_shouldReturnUnauthorized_whenNotAuthenticated: Tests unauthenticated deletion returns 401
+ * 
+ * - delete_shouldWorkForUserWithSessions: Tests user deletion works even if user has associated sessions
+ * 
+ * Dependencies:
+ * - MockMvc: For simulating HTTP requests
+ * - UserRepository: For user database operations
+ * - PasswordEncoder: For password encryption in test data setup
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Full application context loading
+ * - @AutoConfigureMockMvc: Auto-configures MockMvc
+ * - @Transactional: Rolls back database changes after each test
+ * - @DirtiesContext: Resets application context for each test
+ * - @WithMockUser: Provides authenticated context with specific username for authorization tests
+ */
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional

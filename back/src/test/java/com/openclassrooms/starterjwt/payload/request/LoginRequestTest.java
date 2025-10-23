@@ -11,6 +11,43 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * LoginRequest Unit Test Suite
+ * 
+ * This test file contains unit tests for the LoginRequest DTO.
+ * The LoginRequest is used to transfer login credentials from the client to the authentication endpoint.
+ * Tests verify getters/setters functionality and Bean Validation constraints.
+ * 
+ * Test Coverage:
+ * 
+ * Getters and Setters Tests:
+ * - testGettersAndSetters: Tests setEmail() and setPassword() store values correctly,
+ *   verifies getEmail() and getPassword() return the set values
+ * 
+ * Validation Tests:
+ * - testValidation_NotBlank: Tests @NotBlank constraint validation,
+ *   verifies empty email string triggers constraint violation,
+ *   verifies null password triggers constraint violation,
+ *   confirms exactly 2 violations are detected (one for each field)
+ * 
+ * - testValidation_ValidValues: Tests valid login request passes validation,
+ *   verifies no constraint violations when email and password are properly set
+ * 
+ * DTO Properties Tested:
+ * - email: User's email address (String, @NotBlank constraint)
+ * - password: User's password (String, @NotBlank constraint)
+ * 
+ * Validation Constraints:
+ * - @NotBlank on email: Email field cannot be null, empty, or whitespace-only
+ * - @NotBlank on password: Password field cannot be null, empty, or whitespace-only
+ * 
+ * Test Configuration:
+ * - Uses javax.validation.Validator for constraint validation testing
+ * - ValidatorFactory: Created before each test to initialize validator
+ * - Uses AssertJ for fluent assertions
+ * - Tests Bean Validation annotations compliance
+ */
+
 class LoginRequestTest {
 
     private Validator validator;

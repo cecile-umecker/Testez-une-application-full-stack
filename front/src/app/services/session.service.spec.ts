@@ -5,6 +5,33 @@ import { expect } from '@jest/globals';
 import { first } from 'rxjs/operators';
 import { SessionInformation } from '../interfaces/sessionInformation.interface';
 
+/**
+ * SessionService Test Suite
+ * 
+ * This test file contains unit tests for the SessionService.
+ * The SessionService manages user authentication state and session information throughout the application.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Service creation validation
+ * - $isLogged() observable: Verifies initial state emits false
+ * - logIn(user): Tests setting isLogged to true and storing SessionInformation
+ * - logOut(): Tests clearing session state (isLogged becomes false, sessionInformation is undefined)
+ * 
+ * Methods Tested:
+ * - $isLogged(): Observable<boolean> - Returns observable of current authentication state
+ * - logIn(user: SessionInformation): void - Sets user as logged in and stores session data
+ * - logOut(): void - Clears session and sets user as logged out
+ * 
+ * Properties:
+ * - isLogged: boolean - Current authentication status
+ * - sessionInformation: SessionInformation | undefined - Current user session data
+ * 
+ * Mock Data:
+ * - mockUser: SessionInformation object with sample user data including token, username, and admin status
+ */
+
 describe('SessionService', () => {
   let service: SessionService;
 

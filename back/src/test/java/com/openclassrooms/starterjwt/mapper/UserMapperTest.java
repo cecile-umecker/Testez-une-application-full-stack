@@ -13,6 +13,57 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * UserMapper Unit Test Suite
+ * 
+ * This test file contains unit tests for the UserMapper.
+ * The UserMapper converts between User entities and UserDto objects.
+ * 
+ * Test Coverage:
+ * 
+ * toEntity (DTO to Entity) Tests:
+ * - testToEntity: Tests converting UserDto to User entity with complete data,
+ *   verifies all fields (id, email, firstName, lastName, password, admin, createdAt, updatedAt) are mapped correctly
+ * 
+ * - testToEntityWithNull: Tests null DTO returns null entity
+ * 
+ * - testToEntityList: Tests converting list of UserDto to list of User entities,
+ *   verifies all items are mapped correctly including different admin status
+ * 
+ * - testToEntityListWithNull: Tests null list returns null
+ * 
+ * - testToEntityListWithEmptyList: Tests empty list returns empty list
+ * 
+ * toDto (Entity to DTO) Tests:
+ * - testToDto: Tests converting User entity to UserDto,
+ *   verifies all fields are mapped correctly
+ * 
+ * - testToDtoWithNull: Tests null entity returns null DTO
+ * 
+ * - testToDtoList: Tests converting list of User entities to list of UserDto,
+ *   verifies all items are mapped correctly
+ * 
+ * - testToDtoListWithNull: Tests null list returns null
+ * 
+ * - testToDtoListWithEmptyList: Tests empty list returns empty list
+ * 
+ * Bidirectional Mapping Tests:
+ * - testBidirectionalMapping: Tests Entity → DTO → Entity conversion preserves data integrity,
+ *   verifies round-trip mapping maintains all field values (email, firstName, lastName, password, admin)
+ * 
+ * Mapper Initialization Test:
+ * - testMapperIsNotNull: Verifies UserMapper bean is properly injected
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Loads full application context for mapper testing
+ * - @Autowired: Injects UserMapper instance
+ * 
+ * Test Data:
+ * - Uses User.builder() for entity creation
+ * - Uses UserDto constructor and setters for DTO creation
+ * - Tests with complete data including admin/non-admin users, timestamps, and collections
+ */
+
 @SpringBootTest
 class UserMapperTest {
 

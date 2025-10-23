@@ -20,6 +20,42 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+/**
+ * TeacherController Unit Test Suite
+ * 
+ * This test file contains unit tests for the TeacherController.
+ * The TeacherController handles retrieval operations for yoga teachers.
+ * Tests use mocked dependencies to isolate controller logic.
+ * 
+ * Test Coverage:
+ * 
+ * findById Tests:
+ * - testFindByIdSuccess: Tests retrieving a teacher by valid ID,
+ *   verifies teacher details (id, firstName, lastName) are returned with 200 OK status
+ * 
+ * - testFindByIdNotFound: Tests retrieving non-existent teacher returns 404 Not Found
+ * 
+ * - testFindByIdBadRequest: Tests retrieving with invalid ID format (non-numeric) returns 400 Bad Request
+ * 
+ * findAll Tests:
+ * - testFindAll: Tests retrieving all teachers,
+ *   verifies list of teachers is returned with correct data and 200 OK status
+ * 
+ * Mocked Dependencies:
+ * - TeacherService: Handles business logic for teacher operations
+ * - TeacherMapper: Converts between Teacher entities and TeacherDto objects
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Loads full application context
+ * - @AutoConfigureMockMvc: Auto-configures MockMvc
+ * - @MockBean: Creates mock instances of dependencies
+ * - @WithMockUser: Provides authenticated context for all tests with USER role
+ * 
+ * Test Data:
+ * - teacher: Mock Teacher entity with id=1, firstName="John", lastName="Doe"
+ * - teacherDto: Mock TeacherDto with matching data
+ */
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class TeacherControllerTest {

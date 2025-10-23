@@ -13,6 +13,42 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * UserService Unit Test Suite
+ * 
+ * This test file contains unit tests for the UserService.
+ * The UserService handles business logic for user management including retrieval and deletion operations.
+ * Tests use mocked dependencies to isolate service logic.
+ * 
+ * Test Coverage:
+ * 
+ * FindById Tests:
+ * - findById_shouldReturnUser_whenExists: Tests retrieving specific user by ID,
+ *   verifies UserRepository.findById() is called with correct ID (1L),
+ *   confirms correct user data is returned (id, email)
+ * 
+ * - findById_shouldReturnNull_whenNotExists: Tests null is returned for non-existent user ID,
+ *   verifies UserRepository.findById() is called with ID (99L),
+ *   confirms null is returned when Optional.empty()
+ * 
+ * Delete Tests:
+ * - delete_shouldCallRepositoryDeleteById: Tests user deletion,
+ *   verifies UserRepository.deleteById() is called with correct ID (1L)
+ * 
+ * UserService Methods Tested:
+ * - findById(Long): Finds specific user by ID, returns null if not found
+ * - delete(Long): Removes user from database by calling repository deleteById
+ * 
+ * Mocked Dependencies:
+ * - UserRepository: Database operations for users
+ * 
+ * Test Configuration:
+ * - Uses Mockito for mocking repository (@Mock, @InjectMocks)
+ * - MockitoAnnotations.openMocks() called in @BeforeEach to initialize mocks
+ * - Uses JUnit Jupiter assertions (assertNotNull, assertEquals, assertNull)
+ * - Verifies repository method calls using Mockito.verify()
+ */
+
 class UserServiceTest {
 
     @Mock

@@ -16,6 +16,41 @@ import { SessionApiService } from '../../services/session-api.service';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+/**
+ * FormComponent Test Suite
+ * 
+ * This test file contains unit and integration tests for the FormComponent.
+ * The FormComponent handles creation and updating of yoga sessions with a reactive form.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Component creation validation
+ * - ngOnInit() with creation mode: Verifies form is initialized empty
+ * - ngOnInit() with non-admin user: Tests redirect to /sessions if user is not admin
+ * - ngOnInit() with update mode: Validates form is pre-filled with existing session data
+ * - submit() in create mode: Tests SessionApiService.create() is called with form data
+ * - submit() in update mode: Tests SessionApiService.update() is called with form data and session ID
+ * - exitPage(): Verifies snackbar notification is displayed and navigation to /sessions
+ * 
+ * Integration Tests:
+ * - Display "Create session" title: Verifies title when creating new session
+ * - Display "Update session" title: Verifies title when updating existing session
+ * - Render name input: Checks name input field is present
+ * - Render date input: Validates date input field is rendered
+ * - Render teacher select: Ensures teacher dropdown is displayed
+ * - Render description textarea: Confirms description textarea is present
+ * - Render submit button: Validates submit button is rendered
+ * 
+ * Mock Services:
+ * - SessionService: Manages user session and admin status
+ * - SessionApiService: Handles session CRUD operations
+ * - TeacherService: Retrieves list of teachers
+ * - MatSnackBar: Displays notification messages
+ * - Router: Handles navigation and provides current URL
+ * - ActivatedRoute: Provides route parameters (session ID for updates)
+ */
+
 describe('FormComponent', () => {
   let component: FormComponent;
   let fixture: ComponentFixture<FormComponent>;

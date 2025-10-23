@@ -13,6 +13,63 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * TeacherMapper Unit Test Suite
+ * 
+ * This test file contains unit tests for the TeacherMapper.
+ * The TeacherMapper converts between Teacher entities and TeacherDto objects.
+ * 
+ * Test Coverage:
+ * 
+ * toEntity (DTO to Entity) Tests:
+ * - testToEntity: Tests converting TeacherDto to Teacher entity with complete data,
+ *   verifies all fields (id, firstName, lastName, createdAt, updatedAt) are mapped correctly
+ * 
+ * - testToEntityWithNull: Tests null DTO returns null entity
+ * 
+ * - testToEntityWithPartialData: Tests DTO with only some fields populated (id, firstName),
+ *   verifies entity has null values for missing fields
+ * 
+ * - testToEntityList: Tests converting list of TeacherDto to list of Teacher entities,
+ *   verifies all items are mapped correctly
+ * 
+ * - testToEntityListWithNull: Tests null list returns null
+ * 
+ * - testToEntityListWithEmptyList: Tests empty list returns empty list
+ * 
+ * toDto (Entity to DTO) Tests:
+ * - testToDto: Tests converting Teacher entity to TeacherDto,
+ *   verifies all fields are mapped correctly
+ * 
+ * - testToDtoWithNull: Tests null entity returns null DTO
+ * 
+ * - testToDtoWithPartialData: Tests entity with only some fields populated,
+ *   verifies DTO has null values for missing fields
+ * 
+ * - testToDtoList: Tests converting list of Teacher entities to list of TeacherDto,
+ *   verifies all items are mapped correctly
+ * 
+ * - testToDtoListWithNull: Tests null list returns null
+ * 
+ * - testToDtoListWithEmptyList: Tests empty list returns empty list
+ * 
+ * Bidirectional Mapping Tests:
+ * - testBidirectionalMapping: Tests Entity → DTO → Entity conversion preserves data integrity,
+ *   verifies round-trip mapping maintains all field values
+ * 
+ * Mapper Initialization Test:
+ * - testMapperIsNotNull: Verifies TeacherMapper bean is properly injected
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Loads full application context for mapper testing
+ * - @Autowired: Injects TeacherMapper instance
+ * 
+ * Test Data:
+ * - Uses Teacher.builder() for entity creation
+ * - Uses TeacherDto constructor and setters for DTO creation
+ * - Tests with complete data, partial data, null values, and collections
+ */
+
 @SpringBootTest
 class TeacherMapperTest {
 

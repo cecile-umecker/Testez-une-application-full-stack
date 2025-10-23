@@ -6,6 +6,31 @@ import { RegisterRequest } from '../interfaces/registerRequest.interface';
 import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 import { expect } from '@jest/globals';
 
+/**
+ * AuthService Test Suite
+ * 
+ * This test file contains unit tests for the AuthService.
+ * The AuthService handles authentication operations including user registration and login.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Service creation validation
+ * - register(): Tests POST request to 'api/auth/register' endpoint with RegisterRequest payload
+ * - login(): Tests POST request to 'api/auth/login' endpoint and validates SessionInformation response
+ * 
+ * Methods Tested:
+ * - register(registerRequest: RegisterRequest): Observable<void>
+ *   Sends user registration data to the backend API
+ * 
+ * - login(loginRequest: LoginRequest): Observable<SessionInformation>
+ *   Authenticates user credentials and returns session information including token
+ * 
+ * Mock HTTP:
+ * - HttpClientTestingModule: Provides mock HTTP client for testing
+ * - HttpTestingController: Verifies HTTP requests and provides mock responses
+ */
+
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;

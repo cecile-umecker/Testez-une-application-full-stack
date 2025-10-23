@@ -9,6 +9,37 @@ import { NgZone, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
+/**
+ * AppComponent Test Suite
+ * 
+ * This test file contains unit and integration tests for the AppComponent.
+ * The AppComponent is the root component of the application that manages the main navigation toolbar
+ * and displays different navigation links based on user authentication status.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Component creation validation
+ * - $isLogged(): Tests observable returns authentication status from SessionService
+ * - logout(): Verifies SessionService.logOut() is called and navigation to root path
+ * 
+ * Integration Tests (Not Logged In):
+ * - Display toolbar title: Verifies "Yoga app" title is rendered in mat-toolbar
+ * - Display login/register links: Checks "Login" and "Register" links are visible when user is not authenticated
+ * - Hide authenticated links: Ensures "Sessions", "Account", and "Logout" are not displayed
+ * 
+ * Integration Tests (Logged In):
+ * - Display account links: Verifies "Sessions", "Account", and "Logout" links are visible when user is authenticated
+ * - Hide guest links: Ensures "Login" and "Register" links are not displayed
+ * 
+ * Methods Tested:
+ * - $isLogged(): Observable<boolean> - Returns authentication status observable from SessionService
+ * - logout(): void - Logs out user and navigates to home page
+ * 
+ * Mock Services:
+ * - SessionService: Manages authentication state and logout functionality
+ * - Router: Handles navigation after logout
+ */
 
 describe('AppComponent', () => {
   let component: AppComponent;

@@ -14,6 +14,43 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * TeacherService Unit Test Suite
+ * 
+ * This test file contains unit tests for the TeacherService.
+ * The TeacherService handles business logic for yoga teachers including retrieval operations.
+ * Tests use mocked dependencies to isolate service logic.
+ * 
+ * Test Coverage:
+ * 
+ * FindAll Tests:
+ * - findAll_shouldReturnAllTeachers: Tests retrieving all teachers,
+ *   verifies TeacherRepository.findAll() is called,
+ *   confirms correct number of teachers is returned (2 teachers)
+ * 
+ * FindById Tests:
+ * - findById_shouldReturnTeacher_whenExists: Tests retrieving specific teacher by ID,
+ *   verifies TeacherRepository.findById() is called with correct ID (1L),
+ *   confirms correct teacher data is returned (id, firstName)
+ * 
+ * - findById_shouldReturnNull_whenNotExists: Tests null is returned for non-existent teacher ID,
+ *   verifies TeacherRepository.findById() is called with ID (99L),
+ *   confirms null is returned when Optional.empty()
+ * 
+ * TeacherService Methods Tested:
+ * - findAll(): Retrieves all teachers from repository
+ * - findById(Long): Finds specific teacher by ID, returns null if not found
+ * 
+ * Mocked Dependencies:
+ * - TeacherRepository: Database operations for teachers
+ * 
+ * Test Configuration:
+ * - Uses Mockito for mocking repository (@Mock, @InjectMocks)
+ * - MockitoAnnotations.openMocks() called in @BeforeEach to initialize mocks
+ * - Uses JUnit Jupiter assertions (assertNotNull, assertEquals, assertNull)
+ * - Verifies repository method calls using Mockito.verify()
+ */
+
 class TeacherServiceTest {
 
     @Mock

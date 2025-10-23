@@ -12,6 +12,33 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+/**
+ * RegisterComponent Test Suite
+ * 
+ * This test file contains unit and integration tests for the RegisterComponent.
+ * The RegisterComponent handles user registration through a registration form.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Component creation validation
+ * - Form validation when empty: Verifies form is invalid without input
+ * - Email field validation: Tests email format validation (invalid/valid formats)
+ * - First name and last name validation: Tests required field validation
+ * - Password field validation: Tests password required validation
+ * - submit() with successful registration: Verifies AuthService.register() call and navigation to /login
+ * - submit() with failed registration: Tests error handling and onError flag is set to true
+ * 
+ * Integration Tests:
+ * - Display "Register" title: Verifies the page title is rendered
+ * - Render form fields: Checks all four input fields (firstName, lastName, email, password) are present
+ * - Display error message: Validates error message appears when onError is true
+ * 
+ * Mock Services:
+ * - AuthService: Handles user registration
+ * - Router: Handles navigation after successful registration
+ */
+
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;

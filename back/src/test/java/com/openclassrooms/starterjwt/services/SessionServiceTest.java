@@ -16,6 +16,92 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * SessionService Unit Test Suite
+ * 
+ * This test file contains unit tests for the SessionService.
+ * The SessionService handles business logic for yoga sessions including CRUD operations
+ * and user participation management. Tests use mocked dependencies to isolate service logic.
+ * 
+ * Test Coverage:
+ * 
+ * Create Tests:
+ * - testCreate: Tests session creation,
+ *   verifies SessionRepository.save() is called with correct session object,
+ *   confirms created session is returned
+ * 
+ * FindAll Tests:
+ * - testFindAll: Tests retrieving all sessions,
+ *   verifies SessionRepository.findAll() is called,
+ *   confirms correct number of sessions is returned
+ * 
+ * GetById Tests:
+ * - testGetById: Tests retrieving specific session by ID,
+ *   verifies SessionRepository.findById() is called with correct ID,
+ *   confirms correct session is returned
+ * 
+ * Update Tests:
+ * - testUpdate: Tests updating existing session,
+ *   verifies session ID is set correctly,
+ *   confirms SessionRepository.save() is called and updated session is returned
+ * 
+ * Delete Tests:
+ * - testDelete: Tests session deletion,
+ *   verifies SessionRepository.deleteById() is called with correct ID
+ * 
+ * Participate Tests:
+ * - testParticipateSuccess: Tests successfully adding user to session,
+ *   verifies user is added to session's users list,
+ *   confirms SessionRepository.save() is called to persist change
+ * 
+ * - testParticipateThrowsNotFoundIfSessionMissing: Tests NotFoundException is thrown
+ *   when session ID doesn't exist in database
+ * 
+ * - testParticipateThrowsNotFoundIfUserMissing: Tests NotFoundException is thrown
+ *   when user ID doesn't exist in database
+ * 
+ * - testParticipateThrowsBadRequestIfAlreadyParticipating: Tests BadRequestException is thrown
+ *   when user is already participating in session
+ * 
+ * NoLongerParticipate Tests:
+ * - testNoLongerParticipateSuccess: Tests successfully removing user from session,
+ *   verifies user is removed from session's users list,
+ *   confirms SessionRepository.save() is called to persist change
+ * 
+ * - testNoLongerParticipateRemovesOnlyMatchingUser: Tests selective user removal,
+ *   verifies only the specified user is removed from session,
+ *   confirms other users remain in session
+ * 
+ * - testNoLongerParticipateThrowsNotFound: Tests NotFoundException is thrown
+ *   when session ID doesn't exist
+ * 
+ * - testNoLongerParticipateThrowsBadRequestIfUserNotInSession: Tests BadRequestException is thrown
+ *   when trying to remove user who is not participating in session
+ * 
+ * SessionService Methods Tested:
+ * - create(Session): Creates and saves new session
+ * - findAll(): Retrieves all sessions
+ * - getById(Long): Finds session by ID
+ * - update(Long, Session): Updates existing session with new data
+ * - delete(Long): Removes session from database
+ * - participate(Long sessionId, Long userId): Adds user to session participants
+ * - noLongerParticipate(Long sessionId, Long userId): Removes user from session participants
+ * 
+ * Exception Handling:
+ * - NotFoundException: Thrown when session or user not found
+ * - BadRequestException: Thrown for duplicate participation or removing non-participant
+ * 
+ * Mocked Dependencies:
+ * - SessionRepository: Database operations for sessions
+ * - UserRepository: Database operations for users
+ * 
+ * Test Configuration:
+ * - Uses Mockito for mocking repositories
+ * - Uses JUnit Jupiter assertions (assertEquals, assertTrue, assertThrows)
+ * - Manual mock creation in @BeforeEach setup method
+ * - Verifies method calls using Mockito.verify()
+ */
+
 class SessionServiceTest {
 
     private SessionRepository sessionRepository;

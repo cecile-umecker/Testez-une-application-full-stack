@@ -19,6 +19,66 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * SessionMapper Unit Test Suite
+ * 
+ * This test file contains unit tests for the SessionMapper.
+ * The SessionMapper converts between Session entities and SessionDto objects,
+ * handling relationships with Teacher and User entities.
+ * 
+ * Test Coverage:
+ * 
+ * toEntity (DTO to Entity) Tests:
+ * - testToEntity: Tests converting SessionDto to Session entity with complete data,
+ *   verifies teacher and users are properly mapped from IDs
+ * 
+ * - testToEntityWithNull: Tests null DTO returns null entity
+ * 
+ * - testToEntityWithPartialData: Tests DTO with null teacher_id and users,
+ *   verifies entity has null teacher and empty users list
+ * 
+ * - testToEntityList: Tests converting list of SessionDto to list of Session entities,
+ *   verifies all items are mapped correctly including partial data
+ * 
+ * - testToEntityListWithNullOrEmpty: Tests null list returns null and empty list returns empty
+ * 
+ * toDto (Entity to DTO) Tests:
+ * - testToDto: Tests converting Session entity to SessionDto,
+ *   verifies teacher ID and user IDs are extracted correctly
+ * 
+ * - testToDtoWithNullOrEmpty: Tests null entity returns null DTO and empty list returns empty DTO list
+ * 
+ * - testToDtoList: Tests converting list of Session entities to list of SessionDto,
+ *   verifies all items are mapped including entities with null teacher
+ * 
+ * Bidirectional Mapping Tests:
+ * - testBidirectionalMapping: Tests DTO → Entity → DTO conversion preserves data integrity
+ * 
+ * Branch Coverage Tests:
+ * - testBranchCoverage: Tests all conditional branches in mapper:
+ *   • Session with null teacher returns DTO with null teacher_id
+ *   • Session with teacher returns DTO with teacher_id
+ *   • DTO with null users list creates entity with empty users list
+ *   • DTO with empty users list creates entity with empty users list
+ *   • DTO with users list including invalid ID (null user returned from service)
+ * 
+ * Mapper Initialization Test:
+ * - testMapperIsNotNull: Verifies SessionMapper bean is properly injected
+ * 
+ * Mocked Dependencies:
+ * - TeacherService: Provides Teacher entities by ID
+ * - UserService: Provides User entities by ID
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Loads full application context for mapper testing
+ * - @MockBean: Creates mock instances of services
+ * 
+ * Test Data:
+ * - teacher1: Mock Teacher with id=1, firstName="John", lastName="Doe"
+ * - user1: Mock User with id=1, email="user1@test.com"
+ * - user2: Mock User with id=2, email="user2@test.com"
+ */
+
 @SpringBootTest
 class SessionMapperTest {
 

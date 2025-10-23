@@ -4,6 +4,32 @@ import { TeacherService } from './teacher.service';
 import { Teacher } from '../interfaces/teacher.interface';
 import { expect } from '@jest/globals';
 
+/**
+ * TeacherService Test Suite
+ * 
+ * This test file contains unit tests for the TeacherService.
+ * The TeacherService handles HTTP operations related to yoga teachers.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Service creation validation
+ * - all(): Tests GET request to retrieve all teachers from 'api/teacher' endpoint
+ * - detail(id): Tests GET request to retrieve specific teacher details from 'api/teacher/:id'
+ * 
+ * Methods Tested:
+ * - all(): Observable<Teacher[]> - Retrieves list of all available teachers
+ * - detail(id: string): Observable<Teacher> - Gets specific teacher details by ID
+ * 
+ * Mock HTTP:
+ * - HttpClientTestingModule: Provides mock HTTP client for testing
+ * - HttpTestingController: Verifies HTTP requests and provides mock responses
+ * 
+ * Mock Data:
+ * - mockTeachers: Array of Teacher objects with sample teacher data
+ * - mockTeacher: Single Teacher object for detail endpoint testing
+ */
+
 describe('TeacherService', () => {
   let service: TeacherService;
   let httpMock: HttpTestingController;

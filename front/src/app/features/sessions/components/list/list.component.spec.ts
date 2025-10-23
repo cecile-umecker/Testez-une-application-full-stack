@@ -10,6 +10,31 @@ import { SessionService } from 'src/app/services/session.service';
 import { SessionApiService } from '../../services/session-api.service';
 import { Session } from '../../interfaces/session.interface';
 
+/**
+ * ListComponent Test Suite
+ * 
+ * This test file contains unit and integration tests for the ListComponent.
+ * The ListComponent displays a list of available yoga sessions and provides admin functionality to create new sessions.
+ * 
+ * Test Coverage:
+ * 
+ * Unit Tests:
+ * - Component creation validation
+ * - user getter: Verifies user information is retrieved from SessionService
+ * 
+ * Integration Tests:
+ * - Display page title: Verifies "Rentals available" title is rendered
+ * - Display "Create" button for admin: Checks create button is visible when user is admin
+ * - Render session cards: Validates all sessions are displayed with correct data (name, date, description)
+ * 
+ * Mock Services:
+ * - SessionService: Manages user session information and admin status
+ * - SessionApiService: Retrieves list of all available sessions
+ * 
+ * Mock Data:
+ * - mockSessions: Array of Session objects with sample yoga sessions
+ */
+
 describe('ListComponent', () => {
   let component: ListComponent;
   let fixture: ComponentFixture<ListComponent>;

@@ -15,6 +15,63 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * UserService Integration Test Suite
+ * 
+ * This test file contains integration tests for the UserService.
+ * The UserService handles business logic for user management including retrieval and deletion operations.
+ * Tests use real database interactions with cleanup after each test.
+ * 
+ * Test Coverage:
+ * 
+ * FindById Tests:
+ * - findById_shouldReturnUserFromDatabase: Tests retrieving specific user by ID,
+ *   verifies correct user data is returned (id, email, firstName, lastName, admin)
+ * 
+ * - findById_shouldReturnNull_whenUserDoesNotExistInDatabase: Tests null is returned
+ *   for non-existent user ID (999L)
+ * 
+ * - findById_shouldReturnAdminUser: Tests retrieving admin user,
+ *   verifies admin flag is correctly returned and all fields are intact
+ * 
+ * - findById_shouldHandleSpecialCharactersInUserData: Tests handling of special characters
+ *   (accents, apostrophes, hyphens, plus signs) in user data
+ *   (françois.o'connor@test.com, François, O'Connor-Müller)
+ * 
+ * - findById_shouldReturnUserWithAllFields: Tests all user fields are returned
+ *   (id, email, firstName, lastName, password, admin, createdAt, updatedAt)
+ * 
+ * Delete Tests:
+ * - delete_shouldRemoveUserFromDatabase: Tests user deletion,
+ *   verifies user is removed from database and cannot be found afterwards
+ * 
+ * - delete_shouldThrowException_whenUserDoesNotExist: Tests EmptyResultDataAccessException
+ *   is thrown when attempting to delete non-existent user (999L)
+ * 
+ * - delete_shouldRemoveMultipleUsers: Tests deleting multiple users sequentially,
+ *   verifies each user is properly removed from database
+ * 
+ * - delete_andThenFindById_shouldReturnNull: Tests complete deletion workflow,
+ *   verifies deleted user cannot be retrieved via findById()
+ * 
+ * UserService Methods Tested:
+ * - findById(Long): Finds specific user by ID, returns null if not found
+ * - delete(Long): Removes user from database, throws exception if user doesn't exist
+ * 
+ * Exception Handling:
+ * - EmptyResultDataAccessException: Thrown when deleting non-existent user
+ * 
+ * Dependencies:
+ * - UserRepository: Database operations for users
+ * 
+ * Test Configuration:
+ * - @SpringBootTest: Full application context loading
+ * - @Transactional: Rolls back database changes after each test
+ * - @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD): Resets application context after each test
+ * - @BeforeEach: Clears all users from database before each test
+ * - Uses real database with cleanup to ensure test independence
+ */
+
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class UserServiceIntegrationTest {

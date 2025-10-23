@@ -6,6 +6,67 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * User Model Unit Test Suite
+ * 
+ * This test file contains unit tests for the User entity model.
+ * The User model represents an application user with authentication credentials and profile information.
+ * Tests verify constructors with @NonNull validation, builder pattern, getters/setters with null checks,
+ * equals/hashCode contracts, and toString() method.
+ * 
+ * Test Coverage:
+ * 
+ * Constructor Tests (with @NonNull validation):
+ * - testFullCoverage: Comprehensive test covering multiple scenarios:
+ *   • Tests 5-parameter constructor (email, lastName, firstName, password, admin)
+ *     verifies all fields are set correctly
+ *   • Tests @NonNull validation on 5-parameter constructor throws NullPointerException
+ *     for null email, lastName, firstName, or password
+ *   
+ *   • Tests 8-parameter constructor (id, email, lastName, firstName, password, admin, createdAt, updatedAt)
+ *     verifies all fields including timestamps are set correctly
+ *   • Tests @NonNull validation on 8-parameter constructor throws NullPointerException
+ *     for null email, lastName, firstName, or password
+ * 
+ * Builder Pattern Tests:
+ * - Tests User.builder() creates entity with all fields (id, email, lastName, firstName, password, admin, timestamps)
+ *   verifies builder pattern works correctly
+ * 
+ * Setter Tests with @NonNull Validation:
+ * - Tests setEmail(), setLastName(), setFirstName(), setPassword(), setAdmin()
+ *   verifies setters update values correctly
+ * - Tests @NonNull validation on setters throws NullPointerException
+ *   for null email, lastName, firstName, or password
+ * 
+ * Equals and HashCode Tests:
+ * - Tests equals() based on ID: users with same ID are equal regardless of other fields
+ * - Tests equals() with different IDs: users with different IDs are not equal
+ * - Tests hashCode() consistency: same ID produces same hashCode
+ * - Tests hashCode() for different IDs: different IDs produce different hashCodes
+ * - Tests users with null IDs are considered equal
+ * - Tests hashCode() for null IDs: consistent hashCode regardless of other fields
+ * - Tests equals() returns false for null and different types
+ * 
+ * ToString Test:
+ * - Tests toString() contains key fields: email, lastName, firstName
+ * 
+ * Entity Properties Tested:
+ * - id: Unique identifier (Long)
+ * - email: User's email address (String, @NonNull)
+ * - lastName: User's last name (String, @NonNull)
+ * - firstName: User's first name (String, @NonNull)
+ * - password: User's encrypted password (String, @NonNull)
+ * - admin: Admin flag (boolean)
+ * - createdAt: Creation timestamp (LocalDateTime)
+ * - updatedAt: Last update timestamp (LocalDateTime)
+ * 
+ * Test Configuration:
+ * - Uses AssertJ for fluent assertions
+ * - Uses JUnit Jupiter for exception testing
+ * - Tests @NonNull constraint enforcement on constructors and setters
+ * - Tests builder pattern, equals/hashCode contract, and toString()
+ */
+
 class UserTest {
 
     @Test

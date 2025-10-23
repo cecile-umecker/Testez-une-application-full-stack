@@ -27,7 +27,7 @@ class JwtUtilsTest {
     private Authentication authentication;
 
     private String jwtSecret = "testSecretKeyForJwtTokenGenerationAndValidation";
-    private int jwtExpirationMs = 3600000; // 1 heure
+    private int jwtExpirationMs = 3600000; 
 
     @BeforeEach
     void setUp() {
@@ -137,12 +137,11 @@ class JwtUtilsTest {
 
     @Test
     void testValidateJwtToken_UnsupportedJwtException() {
-        // Algo "none" = unsupported signature
         String token = Jwts.builder()
                 .setSubject("test@example.com")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .compact(); // pas de signature
+                .compact(); 
 
         boolean isValid = jwtUtils.validateJwtToken(token);
         assertThat(isValid).isFalse();

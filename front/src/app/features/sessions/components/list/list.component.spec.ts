@@ -43,7 +43,7 @@ describe('ListComponent', () => {
   });
 
   // -----------------------
-  // Tests unitaires TS
+  // Unit tests
   // -----------------------
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -54,7 +54,7 @@ describe('ListComponent', () => {
   });
 
   // -----------------------
-  // Tests DOM
+ // Integration tests
   // -----------------------
   it('should display page title', () => {
     const compiled = fixture.nativeElement as HTMLElement;

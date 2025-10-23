@@ -325,7 +325,6 @@ class SignupRequestTest {
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("password"));
     }
 
-    // ============= TESTS EQUALS APPROFONDIS =============
     
     @Test
     void testEqualsSameInstance() {
@@ -460,7 +459,6 @@ class SignupRequestTest {
         assertThat(request1).isNotEqualTo(request2);
     }
 
-    // ============= TESTS HASHCODE APPROFONDIS =============
 
     @Test
     void testHashCodeConsistency() {
@@ -590,7 +588,6 @@ class SignupRequestTest {
         SignupRequest request1 = new SignupRequest();
         SignupRequest request2 = new SignupRequest();
         
-        // Tester que canEqual fonctionne correctement
         assertThat(request1.equals(request2)).isTrue();
     }
 }

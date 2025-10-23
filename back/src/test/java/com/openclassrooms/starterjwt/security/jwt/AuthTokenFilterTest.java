@@ -97,10 +97,8 @@ class AuthTokenFilterTest {
 
         when(jwtUtils.validateJwtToken(token)).thenThrow(new RuntimeException("JWT error"));
 
-        // Le test ne doit pas lancer, juste logger et continuer
         authTokenFilter.doFilterInternal(request, response, filterChain);
 
-        // Toujours aucun auth dans le contexte
         assertThat(SecurityContextHolder.getContext().getAuthentication()).isNull();
         verify(filterChain, times(1)).doFilter(request, response);
     }

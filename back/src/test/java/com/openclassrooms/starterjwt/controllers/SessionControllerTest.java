@@ -43,12 +43,10 @@ class SessionControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Session entity
         session = new Session();
         session.setId(1L);
         session.setName("Yoga");
 
-        // SessionDto complet pour la validation
         sessionDto = new SessionDto();
         sessionDto.setId(1L);
         sessionDto.setName("Yoga");

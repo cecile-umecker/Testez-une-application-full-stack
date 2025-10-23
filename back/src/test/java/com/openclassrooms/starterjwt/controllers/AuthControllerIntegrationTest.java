@@ -41,7 +41,7 @@ class AuthControllerIntegrationTest {
     @Test
     @DirtiesContext
     void login_shouldReturnJwtToken_whenCredentialsAreValid() throws Exception {
-        // Arrange - Create a real user in database with encoded password
+        // Arrange
         User user = new User();
         user.setEmail("test@example.com");
         user.setFirstName("Test");
@@ -73,7 +73,7 @@ class AuthControllerIntegrationTest {
     @Test
     @DirtiesContext
     void login_shouldReturnUnauthorized_whenPasswordIsInvalid() throws Exception {
-        // Arrange - Create user with specific password
+        // Arrange
         User user = new User();
         user.setEmail("test@example.com");
         user.setFirstName("Test");
@@ -113,7 +113,7 @@ class AuthControllerIntegrationTest {
     @Test
     @DirtiesContext
     void login_shouldReturnAdminTrue_whenUserIsAdmin() throws Exception {
-        // Arrange - Create admin user
+        // Arrange
         User adminUser = new User();
         adminUser.setEmail("admin@example.com");
         adminUser.setFirstName("Admin");
@@ -140,7 +140,7 @@ class AuthControllerIntegrationTest {
     @Test
     @DirtiesContext
     void login_shouldHandleSpecialCharactersInCredentials() throws Exception {
-        // Arrange - User with special characters
+        // Arrange
         User user = new User();
         user.setEmail("françois.o'connor@example.com");
         user.setFirstName("François");
@@ -181,20 +181,19 @@ class AuthControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("User registered successfully!"));
 
-        // Verify user was created in database
         User createdUser = userRepository.findByEmail("newuser@example.com").orElse(null);
         assertThat(createdUser).isNotNull();
         assertThat(createdUser.getEmail()).isEqualTo("newuser@example.com");
         assertThat(createdUser.getFirstName()).isEqualTo("New");
         assertThat(createdUser.getLastName()).isEqualTo("User");
         assertThat(createdUser.isAdmin()).isFalse();
-        assertThat(createdUser.getPassword()).isNotEqualTo("securePassword123"); // Password should be encoded
+        assertThat(createdUser.getPassword()).isNotEqualTo("securePassword123");
     }
 
     @Test
     @DirtiesContext
     void register_shouldReturnBadRequest_whenEmailAlreadyExists() throws Exception {
-        // Arrange - Create existing user
+        // Arrange
         User existingUser = new User();
         existingUser.setEmail("existing@example.com");
         existingUser.setFirstName("Existing");
@@ -218,7 +217,6 @@ class AuthControllerIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Error: Email is already taken!"));
 
-        // Verify no new user was created
         assertThat(userRepository.findAll().stream()
                 .filter(u -> u.getEmail().equals("existing@example.com"))
                 .count()).isEqualTo(1);
@@ -240,7 +238,7 @@ class AuthControllerIntegrationTest {
                 .content(objectMapper.writeValueAsString(signupRequest)))
                 .andExpect(status().isOk());
 
-        // Assert - Password should be BCrypt encoded
+        // Assert
         User createdUser = userRepository.findByEmail("secure@example.com").orElse(null);
         assertThat(createdUser).isNotNull();
         assertThat(createdUser.getPassword()).isNotEqualTo("plainTextPassword");
@@ -287,7 +285,6 @@ class AuthControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("User registered successfully!"));
 
-        // Verify special characters are preserved
         User createdUser = userRepository.findByEmail("françois.müller@example.com").orElse(null);
         assertThat(createdUser).isNotNull();
         assertThat(createdUser.getFirstName()).isEqualTo("François");
@@ -320,20 +317,20 @@ class AuthControllerIntegrationTest {
     @Test
     @DirtiesContext
     void register_andThenLogin_shouldWorkCorrectly() throws Exception {
-        // Arrange - Register a new user
+        // Arrange
         SignupRequest signupRequest = new SignupRequest();
         signupRequest.setEmail("registerlogin@example.com");
         signupRequest.setFirstName("Register");
         signupRequest.setLastName("Login");
         signupRequest.setPassword("mySecurePassword");
 
-        // Act - Register
+        // Act
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signupRequest)))
                 .andExpect(status().isOk());
 
-        // Act - Login with same credentials
+        // Act
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail("registerlogin@example.com");
         loginRequest.setPassword("mySecurePassword");
@@ -398,7 +395,7 @@ class AuthControllerIntegrationTest {
     @Test
     @DirtiesContext
     void register_shouldFailWithBadRequest_whenFieldsAreMissing() throws Exception {
-        // Arrange - Missing required fields
+        // Arrange
         SignupRequest signupRequest = new SignupRequest();
         signupRequest.setEmail("incomplete@example.com");
         // Missing firstName, lastName, password
@@ -413,7 +410,7 @@ class AuthControllerIntegrationTest {
     @Test
     @DirtiesContext
     void login_multipleTimes_shouldReturnDifferentTokens() throws Exception {
-        // Arrange - Create user
+        // Arrange
         User user = new User();
         user.setEmail("multilogin@example.com");
         user.setFirstName("Multi");
@@ -428,7 +425,7 @@ class AuthControllerIntegrationTest {
         loginRequest.setEmail("multilogin@example.com");
         loginRequest.setPassword("password123");
 
-        // Act - Login twice
+        // Act
         String token1 = mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
@@ -445,10 +442,8 @@ class AuthControllerIntegrationTest {
                 .getResponse()
                 .getContentAsString();
 
-        // Assert - Tokens should be different (JWT has timestamp)
+        // Assert
         assertThat(token1).isNotEmpty();
         assertThat(token2).isNotEmpty();
-        // Note: Tokens might be the same if generated within the same second
-        // This test verifies both calls succeed
     }
 }

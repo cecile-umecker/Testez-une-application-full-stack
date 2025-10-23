@@ -38,7 +38,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "john.doe@example.com")
     @DirtiesContext
     void findById_shouldReturnUser_whenUserExists() throws Exception {
-        // Arrange - Create and save a real user
+        // Arrange
         User user = new User();
         user.setEmail("john.doe@example.com");
         user.setFirstName("John");
@@ -84,7 +84,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "admin@example.com")
     @DirtiesContext
     void findById_shouldReturnAdminUser_whenUserIsAdmin() throws Exception {
-        // Arrange - Create admin user
+        // Arrange
         User adminUser = new User();
         adminUser.setEmail("admin@example.com");
         adminUser.setFirstName("Admin");
@@ -108,7 +108,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "test@example.com")
     @DirtiesContext
     void findById_shouldHandleSpecialCharacters_inUserData() throws Exception {
-        // Arrange - User with special characters
+        // Arrange
         User user = new User();
         user.setEmail("françois.müller@example.com");
         user.setFirstName("François");
@@ -143,7 +143,7 @@ class UserControllerIntegrationTest {
         user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
-        // Act & Assert - Verify all DTO fields
+        // Act & Assert
         mockMvc.perform(get("/api/user/" + savedUser.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -154,7 +154,7 @@ class UserControllerIntegrationTest {
                 .andExpect(jsonPath("$.admin").exists())
                 .andExpect(jsonPath("$.createdAt").exists())
                 .andExpect(jsonPath("$.updatedAt").exists())
-                .andExpect(jsonPath("$.password").doesNotExist()); // Password should not be in DTO
+                .andExpect(jsonPath("$.password").doesNotExist()); 
     }
 
     @Test
@@ -172,7 +172,7 @@ class UserControllerIntegrationTest {
         user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
-        // Act & Assert - Password should NOT be exposed
+        // Act & Assert
         mockMvc.perform(get("/api/user/" + savedUser.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -183,7 +183,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "john.doe@example.com")
     @DirtiesContext
     void delete_shouldDeleteUser_whenUserDeletesOwnAccount() throws Exception {
-        // Arrange - Create user
+        // Arrange
         User user = new User();
         user.setEmail("john.doe@example.com");
         user.setFirstName("John");
@@ -195,7 +195,6 @@ class UserControllerIntegrationTest {
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getId();
 
-        // Verify user exists
         assertThat(userRepository.findById(userId)).isPresent();
 
         // Act
@@ -203,7 +202,7 @@ class UserControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        // Assert - User should be deleted
+        // Assert
         assertThat(userRepository.findById(userId)).isEmpty();
     }
 
@@ -211,7 +210,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "other.user@example.com")
     @DirtiesContext
     void delete_shouldReturnUnauthorized_whenUserTriesToDeleteOtherAccount() throws Exception {
-        // Arrange - Create target user
+        // Arrange
         User targetUser = new User();
         targetUser.setEmail("john.doe@example.com");
         targetUser.setFirstName("John");
@@ -223,15 +222,14 @@ class UserControllerIntegrationTest {
         User savedUser = userRepository.save(targetUser);
         Long userId = savedUser.getId();
 
-        // Verify user exists
         assertThat(userRepository.findById(userId)).isPresent();
 
-        // Act - Try to delete with different authenticated user
+        // Act
         mockMvc.perform(delete("/api/user/" + userId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
 
-        // Assert - User should still exist
+        // Assert
         assertThat(userRepository.findById(userId)).isPresent();
     }
 
@@ -239,7 +237,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "admin@example.com")
     @DirtiesContext
     void delete_shouldReturnUnauthorized_whenAdminTriesToDeleteOtherUser() throws Exception {
-        // Arrange - Create admin user (logged in)
+        // Arrange
         User adminUser = new User();
         adminUser.setEmail("admin@example.com");
         adminUser.setFirstName("Admin");
@@ -250,7 +248,6 @@ class UserControllerIntegrationTest {
         adminUser.setUpdatedAt(LocalDateTime.now());
         userRepository.save(adminUser);
 
-        // Create target user to delete
         User targetUser = new User();
         targetUser.setEmail("target@example.com");
         targetUser.setFirstName("Target");
@@ -262,12 +259,12 @@ class UserControllerIntegrationTest {
         User savedTarget = userRepository.save(targetUser);
         Long targetId = savedTarget.getId();
 
-        // Act - Admin tries to delete another user (should fail)
+        // Act
         mockMvc.perform(delete("/api/user/" + targetId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
 
-        // Assert - Target user should still exist
+        // Assert
         assertThat(userRepository.findById(targetId)).isPresent();
     }
 
@@ -305,7 +302,7 @@ class UserControllerIntegrationTest {
         user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
-        // Act & Assert - No @WithMockUser
+        // Act & Assert
         mockMvc.perform(get("/api/user/" + savedUser.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
@@ -325,7 +322,7 @@ class UserControllerIntegrationTest {
         user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
-        // Act & Assert - No @WithMockUser
+        // Act & Assert
         mockMvc.perform(delete("/api/user/" + savedUser.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
@@ -366,7 +363,7 @@ class UserControllerIntegrationTest {
         user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
-        // Act & Assert - Call multiple times
+        // Act & Assert
         for (int i = 0; i < 3; i++) {
             mockMvc.perform(get("/api/user/" + savedUser.getId())
                     .contentType(MediaType.APPLICATION_JSON))
@@ -382,7 +379,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "longname@example.com")
     @DirtiesContext
     void findById_shouldHandleLongNames() throws Exception {
-        // Arrange - User with reasonably long names
+        // Arrange
         String longFirstName = "Maximilian";
         String longLastName = "Bartholomew";
         
@@ -408,7 +405,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "test@example.com")
     @DirtiesContext
     void findById_shouldHandleLongEmail() throws Exception {
-        // Arrange - User with long but valid email
+        // Arrange
         String longEmail = "verylongemailaddress@example.com";
         
         User user = new User();
@@ -432,7 +429,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "deleteme@example.com")
     @DirtiesContext
     void delete_shouldWorkForUserWithSessions() throws Exception {
-        // Arrange - Create user (in real scenario might have sessions)
+        // Arrange
         User user = new User();
         user.setEmail("deleteme@example.com");
         user.setFirstName("Delete");
@@ -457,7 +454,7 @@ class UserControllerIntegrationTest {
     @WithMockUser(username = "unique@example.com")
     @DirtiesContext
     void findById_shouldReturnUser_withUniqueEmail() throws Exception {
-        // Arrange - Verify email uniqueness
+        // Arrange
         User user = new User();
         user.setEmail("unique@example.com");
         user.setFirstName("Unique");
@@ -474,7 +471,6 @@ class UserControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("unique@example.com"));
 
-        // Verify only one user with this email
         assertThat(userRepository.findByEmail("unique@example.com")).isPresent();
     }
 }

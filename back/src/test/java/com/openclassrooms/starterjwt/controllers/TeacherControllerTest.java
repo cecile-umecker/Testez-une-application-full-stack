@@ -69,28 +69,23 @@ class TeacherControllerTest {
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
     void testFindByIdNotFound() throws Exception {
-        // Simulation : aucun teacher trouvé pour l'ID 99
         when(teacherService.findById(99L)).thenReturn(null);
 
         mockMvc.perform(get("/api/teacher/99")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        // Vérifie que le service a bien été appelé
         verify(teacherService, times(1)).findById(99L);
-        // Le mapper ne doit pas être appelé
         verifyNoInteractions(teacherMapper);
     }
 
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
     void testFindByIdBadRequest() throws Exception {
-        // On passe une chaîne non convertible en Long
         mockMvc.perform(get("/api/teacher/abc")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
-        // Vérifie que le service n’a jamais été appelé
         verifyNoInteractions(teacherService);
         verifyNoInteractions(teacherMapper);
     }
@@ -98,11 +93,9 @@ class TeacherControllerTest {
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
     void testFindAll() throws Exception {
-        // Préparer la liste des teachers
         List<Teacher> teachers = List.of(teacher);
         List<TeacherDto> teacherDtos = List.of(teacherDto);
 
-        // Mock du service et du mapper
         when(teacherService.findAll()).thenReturn(teachers);
         when(teacherMapper.toDto(teachers)).thenReturn(teacherDtos);
 
@@ -113,7 +106,6 @@ class TeacherControllerTest {
                 .andExpect(jsonPath("$[0].firstName").value("John"))
                 .andExpect(jsonPath("$[0].lastName").value("Doe"));
 
-        // Vérifie que le service et le mapper ont été appelés une seule fois
         verify(teacherService, times(1)).findAll();
         verify(teacherMapper, times(1)).toDto(teachers);
     }

@@ -181,11 +181,10 @@ class TeacherMapperTest {
 
     @Test
     void testToEntityWithPartialData() {
-        // Arrange - DTO avec seulement quelques champs remplis
+        // Arrange
         TeacherDto dto = new TeacherDto();
         dto.setId(1L);
         dto.setFirstName("John");
-        // lastName, createdAt, updatedAt sont null
 
         // Act
         Teacher entity = teacherMapper.toEntity(dto);
@@ -201,7 +200,7 @@ class TeacherMapperTest {
 
     @Test
     void testToDtoWithPartialData() {
-        // Arrange - Entity avec seulement quelques champs remplis
+        // Arrange
         Teacher entity = Teacher.builder()
                 .id(1L)
                 .firstName("John")
@@ -231,11 +230,11 @@ class TeacherMapperTest {
                 .updatedAt(now)
                 .build();
 
-        // Act - Entity -> DTO -> Entity
+        // Act
         TeacherDto dto = teacherMapper.toDto(originalEntity);
         Teacher resultEntity = teacherMapper.toEntity(dto);
 
-        // Assert - Vérifier que les données sont préservées
+        // Assert
         assertThat(resultEntity).isNotNull();
         assertThat(resultEntity.getId()).isEqualTo(originalEntity.getId());
         assertThat(resultEntity.getLastName()).isEqualTo(originalEntity.getLastName());
@@ -246,7 +245,6 @@ class TeacherMapperTest {
 
     @Test
     void testMapperIsNotNull() {
-        // Vérifier que le mapper est bien injecté par Spring
         assertThat(teacherMapper).isNotNull();
     }
 }

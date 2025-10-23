@@ -186,7 +186,6 @@ class SessionMapperTest {
 
     @Test
     void testBranchCoverage() {
-        // --- sessionTeacherId(Session) ---
         Session sessionNullTeacher = new Session();
         sessionNullTeacher.setTeacher(null);
         SessionDto dtoNullTeacher = sessionMapper.toDto(sessionNullTeacher);
@@ -198,22 +197,18 @@ class SessionMapperTest {
         SessionDto dtoWithTeacher = sessionMapper.toDto(sessionWithTeacher);
         assertThat(dtoWithTeacher.getTeacher_id()).isEqualTo(5L);
 
-        // --- lambda$toEntity$0(Long) ---
-        // users null
         SessionDto dtoUsersNull = new SessionDto();
         dtoUsersNull.setUsers(null);
         Session entityUsersNull = sessionMapper.toEntity(dtoUsersNull);
         assertThat(entityUsersNull.getUsers()).isEmpty();
 
-        // users liste vide
         SessionDto dtoUsersEmpty = new SessionDto();
         dtoUsersEmpty.setUsers(Collections.emptyList());
         Session entityUsersEmpty = sessionMapper.toEntity(dtoUsersEmpty);
         assertThat(entityUsersEmpty.getUsers()).isEmpty();
 
-        // users liste avec ids valides et un id qui retourne null
         SessionDto dtoUsersList = new SessionDto();
-        dtoUsersList.setUsers(Arrays.asList(user1.getId(), 99L)); // 99L n'existe pas
+        dtoUsersList.setUsers(Arrays.asList(user1.getId(), 99L)); 
         Mockito.when(userService.findById(user1.getId())).thenReturn(user1);
         Mockito.when(userService.findById(99L)).thenReturn(null);
 

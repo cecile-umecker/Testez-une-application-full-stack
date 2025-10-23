@@ -45,7 +45,7 @@ describe('RegisterComponent', () => {
   });
 
   // -----------------------
-  // Tests unitaires TS
+  // Unit tests
   // -----------------------
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -124,7 +124,7 @@ describe('RegisterComponent', () => {
   });
 
   // -----------------------
-  // Tests DOM
+ // Integration tests
   // -----------------------
   it('should display "Register" title', () => {
     const compiled = fixture.nativeElement as HTMLElement;

@@ -34,8 +34,8 @@ class LoginRequestTest {
     @Test
     void testValidation_NotBlank() {
         LoginRequest request = new LoginRequest();
-        request.setEmail("");  // vide
-        request.setPassword(null); // null
+        request.setEmail("");  
+        request.setPassword(null); 
 
         Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request);
         assertThat(violations).hasSize(2);

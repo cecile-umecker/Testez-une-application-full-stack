@@ -78,7 +78,7 @@ describe('FormComponent', () => {
   });
 
   // -----------------------
-  // Tests unitaires TS
+  // Unit tests
   // -----------------------
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -153,7 +153,7 @@ describe('FormComponent', () => {
   });
 
   // -----------------------
-  // Tests DOM
+ // Integration tests
   // -----------------------
   it('should display Create session title when not updating', () => {
     component.onUpdate = false;

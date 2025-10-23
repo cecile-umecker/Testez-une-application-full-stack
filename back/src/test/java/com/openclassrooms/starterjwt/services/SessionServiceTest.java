@@ -79,7 +79,6 @@ class SessionServiceTest {
         verify(sessionRepository, times(1)).deleteById(5L);
     }
 
-    // --- Participations ---
     @Test
     void testParticipateSuccess() {
         User user = new User();
@@ -127,7 +126,6 @@ class SessionServiceTest {
         assertThrows(BadRequestException.class, () -> sessionService.participate(1L, 2L));
     }
 
-    // --- No longer participate ---
     @Test
     void testNoLongerParticipateSuccess() {
         User user = new User();

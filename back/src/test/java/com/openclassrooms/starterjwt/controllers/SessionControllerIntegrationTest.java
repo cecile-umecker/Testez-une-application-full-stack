@@ -67,7 +67,7 @@ class SessionControllerIntegrationTest {
         session.setDate(new Date());
         session.setDescription("Integration test session");
         session.setTeacher(teacher);
-        session.setUsers(new ArrayList<>()); // Initialize the users list
+        session.setUsers(new ArrayList<>()); 
         session = sessionRepository.save(session);
     }
 
@@ -155,7 +155,6 @@ class SessionControllerIntegrationTest {
     @Test
     @WithMockUser
     void testNoLongerParticipateIntegration() throws Exception {
-        // Ensure users list is initialized and add user
         if (session.getUsers() == null) {
             session.setUsers(new ArrayList<>());
         }
@@ -206,11 +205,9 @@ class SessionControllerIntegrationTest {
     @Test
     @WithMockUser
     void testParticipateAlreadyParticipating() throws Exception {
-        // First participation
         mockMvc.perform(post("/api/session/" + session.getId() + "/participate/" + user.getId()))
                 .andExpect(status().isOk());
 
-        // Try to participate again
         mockMvc.perform(post("/api/session/" + session.getId() + "/participate/" + user.getId()))
                 .andExpect(status().isBadRequest());
     }

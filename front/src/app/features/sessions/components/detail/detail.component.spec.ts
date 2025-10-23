@@ -96,7 +96,7 @@ describe('DetailComponent', () => {
   });
 
   // -----------------------
-  // Tests unitaires TS
+  // Unit tests
   // -----------------------
   it('should create component', () => {
     expect(component).toBeTruthy();
@@ -143,7 +143,7 @@ describe('DetailComponent', () => {
   }));
 
   // -----------------------
-  // Tests DOM
+ // Integration tests
   // -----------------------
   it('should render h1 title with session name', () => {
     fixture.detectChanges();

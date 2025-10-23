@@ -24,7 +24,7 @@ describe('AuthService', () => {
   });
 
   // -----------------------
-  // Tests unitaires TS
+  // Unit tests
   // -----------------------
   it('should be created', () => {
     expect(service).toBeTruthy();

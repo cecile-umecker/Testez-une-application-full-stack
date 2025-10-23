@@ -44,7 +44,7 @@ describe('AppComponent', () => {
   });
 
   // -----------------------
-  // Tests unitaires TS
+  // Unit tests
   // -----------------------
   it('should create the app', () => {
     const fixture: ComponentFixture<AppComponent> = TestBed.createComponent(AppComponent);
@@ -74,7 +74,7 @@ describe('AppComponent', () => {
 
 
   // -----------------------
-  // Tests DOM
+ // Integration tests
   // -----------------------
 describe('AppComponent DOM tests', () => {
   let fixture: ComponentFixture<AppComponent>;

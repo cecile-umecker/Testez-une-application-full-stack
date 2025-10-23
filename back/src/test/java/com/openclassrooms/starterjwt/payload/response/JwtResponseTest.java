@@ -47,7 +47,7 @@ class JwtResponseTest {
         assertThat(response.getFirstName()).isNull();
         assertThat(response.getLastName()).isNull();
         assertThat(response.getAdmin()).isNull();
-        assertThat(response.getType()).isEqualTo("Bearer"); // type a une valeur par défaut
+        assertThat(response.getType()).isEqualTo("Bearer"); 
     }
 
     @Test
@@ -333,7 +333,7 @@ class JwtResponseTest {
                 true
         );
 
-        // Assert - Le constructeur ne modifie pas le type, il garde sa valeur par défaut
+        // Assert
         assertThat(response.getType()).isEqualTo("Bearer");
     }
 
@@ -388,7 +388,7 @@ class JwtResponseTest {
                 true
         );
 
-        // Act - Modifier toutes les valeurs
+        // Act
         response.setToken("updated-token");
         response.setId(999L);
         response.setUsername("updated@example.com");
@@ -417,7 +417,7 @@ class JwtResponseTest {
                 true
         );
 
-        // Act - Appeler les getters plusieurs fois
+        // Act 
         response.getToken();
         response.getId();
         response.getUsername();
@@ -426,7 +426,7 @@ class JwtResponseTest {
         response.getAdmin();
         response.getType();
 
-        // Assert - Les valeurs ne doivent pas avoir changé
+        // Assert
         assertThat(response.getToken()).isEqualTo("token");
         assertThat(response.getId()).isEqualTo(1L);
         assertThat(response.getUsername()).isEqualTo("user@example.com");

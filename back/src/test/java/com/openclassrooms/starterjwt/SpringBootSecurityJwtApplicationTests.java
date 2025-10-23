@@ -37,18 +37,15 @@ class SpringBootSecurityJwtApplicationTests {
 
     @Test
     void contextLoads() {
-        // Test minimal pour le contexte
     }
 
     @Test
     void testMain() {
-        // Appelle explicitement la méthode main pour couvrir la ligne SpringApplication.run
         SpringBootSecurityJwtApplication.main(new String[]{});
     }
 
     @Test
     void criticalSecurityBeansAreLoaded() {
-        // Verify security-critical beans are properly loaded
         assertThat(applicationContext.getBean(JwtUtils.class))
                 .as("JwtUtils bean should be loaded")
                 .isNotNull();
@@ -57,7 +54,6 @@ class SpringBootSecurityJwtApplicationTests {
                 .as("UserDetailsServiceImpl bean should be loaded")
                 .isNotNull();
 
-        // Verify AuthTokenFilter is loaded (Spring Security filter)
         assertThat(applicationContext.containsBean("authenticationJwtTokenFilter"))
                 .as("AuthTokenFilter bean should be present")
                 .isTrue();
@@ -65,7 +61,6 @@ class SpringBootSecurityJwtApplicationTests {
 
     @Test
     void repositoryBeansAreLoaded() {
-        // Verify all repository beans are properly loaded
         assertThat(userRepository)
                 .as("UserRepository should be autowired and not null")
                 .isNotNull();
@@ -81,8 +76,6 @@ class SpringBootSecurityJwtApplicationTests {
 
     @Test
     void jwtConfigurationIsLoaded() {
-        // Verify JWT configuration is loaded into JwtUtils bean via @Value injection
-        // Use ReflectionTestUtils to access private fields injected by Spring
         String jwtSecret = (String) ReflectionTestUtils.getField(jwtUtils, "jwtSecret");
         Integer jwtExpirationMs = (Integer) ReflectionTestUtils.getField(jwtUtils, "jwtExpirationMs");
 
@@ -99,13 +92,10 @@ class SpringBootSecurityJwtApplicationTests {
 
     @Test
     void databaseConnectionIsEstablished() {
-        // Verify database is accessible by performing a simple count query
-        // This ensures JPA/Hibernate configuration is correct
         long userCount = userRepository.count();
         long sessionCount = sessionRepository.count();
         long teacherCount = teacherRepository.count();
 
-        // We don't care about the actual counts, just that queries execute without errors
         assertThat(userCount)
                 .as("UserRepository should be able to query the database")
                 .isGreaterThanOrEqualTo(0);

@@ -23,7 +23,7 @@ describe('SessionApiService', () => {
   });
 
     // -----------------------
-  // Tests unitaires TS
+  // Unit tests
   // -----------------------
   it('should be created', () => {
     expect(service).toBeTruthy();

@@ -33,7 +33,7 @@ class TeacherControllerIntegrationTest {
     @WithMockUser
     @DirtiesContext
     void findById_shouldReturnTeacher_whenTeacherExists() throws Exception {
-        // Arrange - Create and save a real teacher
+        // Arrange
         Teacher teacher = new Teacher();
         teacher.setFirstName("John");
         teacher.setLastName("Doe");
@@ -74,7 +74,7 @@ class TeacherControllerIntegrationTest {
     @WithMockUser
     @DirtiesContext
     void findById_shouldHandleSpecialCharacters_inTeacherName() throws Exception {
-        // Arrange - Teacher with special characters
+        // Arrange
         Teacher teacher = new Teacher();
         teacher.setFirstName("François");
         teacher.setLastName("O'Connor-Müller");
@@ -94,7 +94,7 @@ class TeacherControllerIntegrationTest {
     @WithMockUser
     @DirtiesContext
     void findAll_shouldReturnAllTeachers() throws Exception {
-        // Arrange - Create multiple teachers
+        // Arrange
         Teacher teacher1 = new Teacher();
         teacher1.setFirstName("John");
         teacher1.setLastName("Doe");
@@ -133,7 +133,7 @@ class TeacherControllerIntegrationTest {
     @WithMockUser
     @DirtiesContext
     void findAll_shouldReturnEmptyArray_whenNoTeachersExist() throws Exception {
-        // Arrange - Clear all teachers (handled by @Transactional rollback)
+        // Arrange
         
         // Act & Assert
         mockMvc.perform(get("/api/teacher")
@@ -154,7 +154,7 @@ class TeacherControllerIntegrationTest {
         teacher.setUpdatedAt(LocalDateTime.now());
         Teacher savedTeacher = teacherRepository.save(teacher);
 
-        // Act & Assert - Verify DTO structure
+        // Act & Assert
         mockMvc.perform(get("/api/teacher")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -176,7 +176,7 @@ class TeacherControllerIntegrationTest {
         teacher.setUpdatedAt(LocalDateTime.now());
         Teacher savedTeacher = teacherRepository.save(teacher);
 
-        // Act & Assert - Verify all fields are present
+        // Act & Assert
         mockMvc.perform(get("/api/teacher/" + savedTeacher.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -222,7 +222,7 @@ class TeacherControllerIntegrationTest {
         teacher.setUpdatedAt(LocalDateTime.now());
         Teacher savedTeacher = teacherRepository.save(teacher);
 
-        // Act & Assert - Call multiple times
+        // Act & Assert
         for (int i = 0; i < 3; i++) {
             mockMvc.perform(get("/api/teacher/" + savedTeacher.getId())
                     .contentType(MediaType.APPLICATION_JSON))
@@ -237,7 +237,7 @@ class TeacherControllerIntegrationTest {
     @WithMockUser
     @DirtiesContext
     void findAll_shouldHandleLargeNumberOfTeachers() throws Exception {
-        // Arrange - Create 10 teachers
+        // Arrange
         for (int i = 1; i <= 10; i++) {
             Teacher teacher = new Teacher();
             teacher.setFirstName("Teacher" + i);
@@ -278,10 +278,9 @@ class TeacherControllerIntegrationTest {
     @WithMockUser
     @DirtiesContext
     void findAll_afterAddingTeacher_shouldIncludeNewTeacher() throws Exception {
-        // Arrange - Get initial count
+        // Arrange
         int initialCount = teacherRepository.findAll().size();
 
-        // Add new teacher
         Teacher newTeacher = new Teacher();
         newTeacher.setFirstName("NewTeacher");
         newTeacher.setLastName("JustAdded");
@@ -302,7 +301,7 @@ class TeacherControllerIntegrationTest {
     @WithMockUser
     @DirtiesContext
     void findAll_shouldReturnTeachersOrderedById() throws Exception {
-        // Arrange - Create teachers
+        // Arrange
         Teacher teacher1 = new Teacher();
         teacher1.setFirstName("First");
         teacher1.setLastName("Teacher");
@@ -317,7 +316,7 @@ class TeacherControllerIntegrationTest {
         teacher2.setUpdatedAt(LocalDateTime.now());
         Teacher saved2 = teacherRepository.save(teacher2);
 
-        // Act & Assert - Verify order (assuming default sort by ID)
+        // Act & Assert
         mockMvc.perform(get("/api/teacher")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -336,7 +335,7 @@ class TeacherControllerIntegrationTest {
         teacher.setUpdatedAt(LocalDateTime.now());
         Teacher savedTeacher = teacherRepository.save(teacher);
 
-        // Act & Assert - No @WithMockUser
+        // Act & Assert
         mockMvc.perform(get("/api/teacher/" + savedTeacher.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
@@ -345,7 +344,7 @@ class TeacherControllerIntegrationTest {
     @Test
     @DirtiesContext
     void findAll_shouldReturnUnauthorized_whenNotAuthenticated() throws Exception {
-        // Act & Assert - No @WithMockUser
+        // Act & Assert
         mockMvc.perform(get("/api/teacher")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());

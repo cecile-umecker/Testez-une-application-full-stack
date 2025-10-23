@@ -29,7 +29,6 @@ class UserDetailsImplTest {
 
     @Test
     void testBuilderIndividualSetters() {
-        // Test que chaque méthode du builder fonctionne
         UserDetailsImpl.UserDetailsImplBuilder builder = UserDetailsImpl.builder();
         
         builder.id(10L);
@@ -51,7 +50,6 @@ class UserDetailsImplTest {
 
     @Test
     void testBuilderPartialFields() {
-        // Builder avec seulement certains champs
         UserDetailsImpl user = UserDetailsImpl.builder()
                 .id(2L)
                 .username("partial@test.com")
@@ -67,7 +65,6 @@ class UserDetailsImplTest {
 
     @Test
     void testBuilderWithNullValues() {
-        // Builder avec des valeurs null explicites
         UserDetailsImpl user = UserDetailsImpl.builder()
                 .id(null)
                 .username(null)
@@ -87,7 +84,6 @@ class UserDetailsImplTest {
 
     @Test
     void testBuilderEmptyBuild() {
-        // Builder sans aucun setter appelé
         UserDetailsImpl user = UserDetailsImpl.builder().build();
 
         assertThat(user.getId()).isNull();
@@ -100,7 +96,6 @@ class UserDetailsImplTest {
 
     @Test
     void testBuilderToString() {
-        // Le builder a aussi une méthode toString()
         UserDetailsImpl.UserDetailsImplBuilder builder = UserDetailsImpl.builder()
                 .id(1L)
                 .username("test@example.com");
@@ -111,7 +106,6 @@ class UserDetailsImplTest {
 
     @Test
     void testAllArgsConstructor() {
-        // Test du constructeur @AllArgsConstructor
         UserDetailsImpl user = new UserDetailsImpl(
                 5L,
                 "constructor@test.com",
@@ -131,7 +125,6 @@ class UserDetailsImplTest {
 
     @Test
     void testAllArgsConstructorWithNulls() {
-        // Test du constructeur avec des nulls
         UserDetailsImpl user = new UserDetailsImpl(
                 null,
                 null,
@@ -165,7 +158,6 @@ class UserDetailsImplTest {
 
     @Test
     void testEquals() {
-        // Deux objets avec le même id sont égaux
         UserDetailsImpl user1 = UserDetailsImpl.builder()
                 .id(1L)
                 .username("john@example.com")
@@ -183,9 +175,8 @@ class UserDetailsImplTest {
                 .username("bob@example.com")
                 .build();
 
-        // Equals basé sur l'id uniquement
-        assertThat(user1).isEqualTo(user2); // même id
-        assertThat(user1).isNotEqualTo(user3); // id différent
+        assertThat(user1).isEqualTo(user2); 
+        assertThat(user1).isNotEqualTo(user3); 
         assertThat(user1).isNotEqualTo(null);
         assertThat(user1).isNotEqualTo("string");
     }
@@ -196,12 +187,11 @@ class UserDetailsImplTest {
                 .id(10L)
                 .username("test@example.com")
                 .build();
-        assertThat(user).isEqualTo(user); // same instance
+        assertThat(user).isEqualTo(user); 
     }
 
     @Test
     void testEqualsWithNullIds() {
-        // Deux objets avec id null
         UserDetailsImpl user1 = UserDetailsImpl.builder()
                 .id(null)
                 .username("user1@example.com")
@@ -212,7 +202,6 @@ class UserDetailsImplTest {
                 .username("user2@example.com")
                 .build();
 
-        // Avec id null, ils doivent être égaux
         assertThat(user1).isEqualTo(user2);
     }
 
@@ -305,7 +294,6 @@ class UserDetailsImplTest {
 
     @Test
     void testBuilderChaining() {
-        // Test le chaînage des appels du builder
         UserDetailsImpl user = UserDetailsImpl.builder()
                 .id(99L)
                 .username("chain@test.com")
@@ -325,7 +313,6 @@ class UserDetailsImplTest {
 
     @Test
     void testMultipleBuildersIndependence() {
-        // Vérifier que deux builders sont indépendants
         UserDetailsImpl.UserDetailsImplBuilder builder1 = UserDetailsImpl.builder()
                 .id(1L)
                 .username("user1@test.com");

@@ -26,7 +26,7 @@ class TeacherServiceIntegrationTest {
     @Test
     @DirtiesContext
     void findAll_shouldReturnAllTeachersFromDatabase() {
-        // Arrange - Create and save multiple teachers
+        // Arrange
         Teacher teacher1 = new Teacher();
         teacher1.setFirstName("John");
         teacher1.setLastName("Doe");
@@ -65,14 +65,14 @@ class TeacherServiceIntegrationTest {
         // Act
         List<Teacher> result = teacherService.findAll();
 
-        // Assert - Database may have seed data, so just verify it's not null
+        // Assert
         assertThat(result).isNotNull();
     }
 
     @Test
     @DirtiesContext
     void findById_shouldReturnTeacherFromDatabase() {
-        // Arrange - Create and save a teacher
+        // Arrange
         Teacher teacher = new Teacher();
         teacher.setFirstName("Alice");
         teacher.setLastName("Williams");
@@ -104,7 +104,7 @@ class TeacherServiceIntegrationTest {
     @Test
     @DirtiesContext
     void findById_shouldReturnTeacherWithAllFields() {
-        // Arrange - Teacher with all fields populated
+        // Arrange 
         LocalDateTime now = LocalDateTime.now();
         Teacher teacher = new Teacher();
         teacher.setFirstName("Complete");
@@ -117,7 +117,7 @@ class TeacherServiceIntegrationTest {
         // Act
         Teacher result = teacherService.findById(savedTeacher.getId());
 
-        // Assert - Verify all fields
+        // Assert 
         assertThat(result.getId()).isEqualTo(savedTeacher.getId());
         assertThat(result.getFirstName()).isEqualTo("Complete");
         assertThat(result.getLastName()).isEqualTo("Teacher");
@@ -128,7 +128,7 @@ class TeacherServiceIntegrationTest {
     @Test
     @DirtiesContext
     void findById_shouldHandleSpecialCharactersInTeacherData() {
-        // Arrange - Teacher with special characters
+        // Arrange 
         Teacher teacher = new Teacher();
         teacher.setFirstName("François");
         teacher.setLastName("O'Connor-Müller");
@@ -149,10 +149,9 @@ class TeacherServiceIntegrationTest {
     @Test
     @DirtiesContext
     void findAll_shouldReturnTeachersInCorrectOrder() {
-        // Arrange - Get initial count
+        // Arrange 
         int initialCount = teacherService.findAll().size();
         
-        // Create teachers with specific order
         Teacher teacher1 = new Teacher();
         teacher1.setFirstName("Adam");
         teacher1.setLastName("Anderson");
@@ -180,7 +179,6 @@ class TeacherServiceIntegrationTest {
         // Assert
         assertThat(result).hasSizeGreaterThanOrEqualTo(initialCount + 3);
         
-        // Verify our teachers exist in the result
         assertThat(result).anyMatch(t -> t.getId().equals(savedTeacher1.getId()));
         assertThat(result).anyMatch(t -> t.getId().equals(savedTeacher2.getId()));
         assertThat(result).anyMatch(t -> t.getId().equals(savedTeacher3.getId()));
@@ -189,7 +187,7 @@ class TeacherServiceIntegrationTest {
     @Test
     @DirtiesContext
     void findAll_shouldReturnMultipleTeachersWithDifferentData() {
-        // Arrange - Create diverse teachers
+        // Arrange 
         Teacher teacher1 = new Teacher();
         teacher1.setFirstName("Emily");
         teacher1.setLastName("Davis");
@@ -235,12 +233,12 @@ class TeacherServiceIntegrationTest {
         
         Long teacherId = savedTeacher.getId();
 
-        // Act - Call findById multiple times
+        // Act
         Teacher result1 = teacherService.findById(teacherId);
         Teacher result2 = teacherService.findById(teacherId);
         Teacher result3 = teacherService.findById(teacherId);
 
-        // Assert - All should return the same data
+        // Assert
         assertThat(result1).isNotNull();
         assertThat(result2).isNotNull();
         assertThat(result3).isNotNull();
@@ -253,10 +251,10 @@ class TeacherServiceIntegrationTest {
     @Test
     @DirtiesContext
     void findAll_afterAddingNewTeacher_shouldIncludeNewTeacher() {
-        // Arrange - Get initial count
+        // Arrange
         int initialCount = teacherService.findAll().size();
 
-        // Act - Add a new teacher
+        // Act
         Teacher newTeacher = new Teacher();
         newTeacher.setFirstName("NewTeacher");
         newTeacher.setLastName("AddedNow");

@@ -53,7 +53,7 @@ describe('LoginComponent', () => {
   });
 
   // -----------------------
-  // Tests unitaires TS
+  // Unit tests
   // -----------------------
   it('should have invalid form when empty', () => {
     expect(component.form.valid).toBeFalsy();
@@ -105,7 +105,7 @@ describe('LoginComponent', () => {
   });
 
   // -----------------------
-  // Tests DOM
+ // Integration tests
   // -----------------------
   it('should render the page title', () => {
     const compiled = fixture.nativeElement as HTMLElement;

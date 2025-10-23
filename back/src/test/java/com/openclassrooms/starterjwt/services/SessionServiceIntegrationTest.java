@@ -41,7 +41,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void create_shouldSaveSessionToDatabase() {
-        // Arrange - Create a teacher first
+        // Arrange
         Teacher teacher = new Teacher();
         teacher.setFirstName("Test");
         teacher.setLastName("Teacher");
@@ -49,7 +49,6 @@ class SessionServiceIntegrationTest {
         teacher.setUpdatedAt(LocalDateTime.now());
         Teacher savedTeacher = teacherRepository.save(teacher);
 
-        // Create session
         Session session = new Session();
         session.setName("Yoga Session");
         session.setDescription("Morning yoga");
@@ -73,7 +72,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void findAll_shouldReturnAllSessionsFromDatabase() {
-        // Arrange - Create teacher and sessions
+        // Arrange
         Teacher teacher = new Teacher();
         teacher.setFirstName("Test");
         teacher.setLastName("Teacher");
@@ -155,7 +154,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void update_shouldUpdateSessionInDatabase() {
-        // Arrange - Create initial session
+        // Arrange
         Teacher teacher = new Teacher();
         teacher.setFirstName("Test");
         teacher.setLastName("Teacher");
@@ -173,7 +172,6 @@ class SessionServiceIntegrationTest {
         session.setUpdatedAt(LocalDateTime.now());
         Session savedSession = sessionRepository.save(session);
 
-        // Create updated session
         Session updatedSession = new Session();
         updatedSession.setName("Updated Name");
         updatedSession.setDescription("Updated Description");
@@ -190,7 +188,6 @@ class SessionServiceIntegrationTest {
         assertThat(result.getName()).isEqualTo("Updated Name");
         assertThat(result.getDescription()).isEqualTo("Updated Description");
 
-        // Verify in database
         Session fromDb = sessionRepository.findById(savedSession.getId()).orElse(null);
         assertThat(fromDb).isNotNull();
         assertThat(fromDb.getName()).isEqualTo("Updated Name");
@@ -218,7 +215,6 @@ class SessionServiceIntegrationTest {
         Session savedSession = sessionRepository.save(session);
         Long sessionId = savedSession.getId();
 
-        // Verify exists
         assertThat(sessionRepository.findById(sessionId)).isPresent();
 
         // Act
@@ -231,7 +227,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void participate_shouldAddUserToSession() {
-        // Arrange - Create user
+        // Arrange
         User user = new User();
         user.setEmail("user@test.com");
         user.setFirstName("Test");
@@ -242,7 +238,6 @@ class SessionServiceIntegrationTest {
         user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
-        // Create session
         Teacher teacher = new Teacher();
         teacher.setFirstName("Test");
         teacher.setLastName("Teacher");
@@ -273,7 +268,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void participate_shouldThrowNotFoundException_whenSessionDoesNotExist() {
-        // Arrange - Create user only
+        // Arrange
         User user = new User();
         user.setEmail("user@test.com");
         user.setFirstName("Test");
@@ -293,7 +288,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void participate_shouldThrowNotFoundException_whenUserDoesNotExist() {
-        // Arrange - Create session only
+        // Arrange
         Teacher teacher = new Teacher();
         teacher.setFirstName("Test");
         teacher.setLastName("Teacher");
@@ -320,7 +315,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void participate_shouldThrowBadRequestException_whenUserAlreadyParticipating() {
-        // Arrange - Create user and session
+        // Arrange
         User user = new User();
         user.setEmail("user@test.com");
         user.setFirstName("Test");
@@ -343,7 +338,7 @@ class SessionServiceIntegrationTest {
         session.setDescription("Test");
         session.setDate(new Date());
         session.setTeacher(savedTeacher);
-        session.setUsers(new ArrayList<>(List.of(savedUser))); // User already in session
+        session.setUsers(new ArrayList<>(List.of(savedUser))); 
         session.setCreatedAt(LocalDateTime.now());
         session.setUpdatedAt(LocalDateTime.now());
         Session savedSession = sessionRepository.save(session);
@@ -357,7 +352,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void noLongerParticipate_shouldRemoveUserFromSession() {
-        // Arrange - Create user and session with user
+        // Arrange
         User user = new User();
         user.setEmail("user@test.com");
         user.setFirstName("Test");
@@ -385,7 +380,6 @@ class SessionServiceIntegrationTest {
         session.setUpdatedAt(LocalDateTime.now());
         Session savedSession = sessionRepository.save(session);
 
-        // Verify user is in session
         assertThat(savedSession.getUsers()).hasSize(1);
 
         // Act
@@ -409,7 +403,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void noLongerParticipate_shouldThrowBadRequestException_whenUserNotInSession() {
-        // Arrange - Create session without user
+        // Arrange
         Teacher teacher = new Teacher();
         teacher.setFirstName("Test");
         teacher.setLastName("Teacher");
@@ -436,7 +430,7 @@ class SessionServiceIntegrationTest {
     @Test
     @DirtiesContext
     void noLongerParticipate_shouldOnlyRemoveSpecifiedUser() {
-        // Arrange - Create two users
+        // Arrange
         User user1 = new User();
         user1.setEmail("user1@test.com");
         user1.setFirstName("User");
@@ -457,7 +451,6 @@ class SessionServiceIntegrationTest {
         user2.setUpdatedAt(LocalDateTime.now());
         User savedUser2 = userRepository.save(user2);
 
-        // Create session with both users
         Teacher teacher = new Teacher();
         teacher.setFirstName("Test");
         teacher.setLastName("Teacher");
@@ -475,7 +468,7 @@ class SessionServiceIntegrationTest {
         session.setUpdatedAt(LocalDateTime.now());
         Session savedSession = sessionRepository.save(session);
 
-        // Act - Remove only user1
+        // Act 
         sessionService.noLongerParticipate(savedSession.getId(), savedUser1.getId());
 
         // Assert

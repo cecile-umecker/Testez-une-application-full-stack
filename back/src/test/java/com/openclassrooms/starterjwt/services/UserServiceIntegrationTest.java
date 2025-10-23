@@ -27,14 +27,13 @@ class UserServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        // Clean database before each test
         userRepository.deleteAll();
     }
 
     @Test
     @Transactional
     void findById_shouldReturnUserFromDatabase() {
-        // Arrange - Create and save a real user
+        // Arrange
         User user = User.builder()
                 .email("integration@test.com")
                 .firstName("Integration")
@@ -71,7 +70,7 @@ class UserServiceIntegrationTest {
     @Test
     @Transactional
     void delete_shouldRemoveUserFromDatabase() {
-        // Arrange - Create and save a user
+        // Arrange
         User user = User.builder()
                 .email("delete@test.com")
                 .firstName("Delete")
@@ -84,7 +83,6 @@ class UserServiceIntegrationTest {
         User savedUser = userRepository.save(user);
         Long userId = savedUser.getId();
 
-        // Verify user exists
         assertThat(userRepository.findById(userId)).isPresent();
 
         // Act
@@ -97,7 +95,7 @@ class UserServiceIntegrationTest {
     @Test
     @Transactional
     void delete_shouldThrowException_whenUserDoesNotExist() {
-        // Act & Assert - Should throw EmptyResultDataAccessException
+        // Act & Assert 
         assertThrows(EmptyResultDataAccessException.class, () -> {
             userService.delete(999L);
         });
@@ -106,7 +104,7 @@ class UserServiceIntegrationTest {
     @Test
     @Transactional
     void findById_shouldReturnAdminUser() {
-        // Arrange - Create admin user
+        // Arrange 
         User adminUser = User.builder()
                 .email("admin@test.com")
                 .firstName("Admin")
@@ -130,7 +128,7 @@ class UserServiceIntegrationTest {
     @Test
     @Transactional
     void findById_shouldHandleSpecialCharactersInUserData() {
-        // Arrange - User with special characters
+        // Arrange 
         User user = User.builder()
                 .email("françois.o'connor@test.com")
                 .firstName("François")
@@ -155,7 +153,7 @@ class UserServiceIntegrationTest {
     @Test
     @Transactional
     void delete_shouldRemoveMultipleUsers() {
-        // Arrange - Create multiple users
+        // Arrange
         User user1 = userRepository.save(User.builder()
                 .email("user1@test.com")
                 .firstName("User")
@@ -176,15 +174,14 @@ class UserServiceIntegrationTest {
                 .updatedAt(LocalDateTime.now())
                 .build());
 
-        // Verify both exist
         assertThat(userRepository.findById(user1.getId())).isPresent();
         assertThat(userRepository.findById(user2.getId())).isPresent();
 
-        // Act - Delete both
+        // Act 
         userService.delete(user1.getId());
         userService.delete(user2.getId());
 
-        // Assert - Both deleted
+        // Assert
         assertThat(userRepository.findById(user1.getId())).isEmpty();
         assertThat(userRepository.findById(user2.getId())).isEmpty();
     }
@@ -192,7 +189,7 @@ class UserServiceIntegrationTest {
     @Test
     @Transactional
     void findById_shouldReturnUserWithAllFields() {
-        // Arrange - User with all fields populated
+        // Arrange 
         LocalDateTime now = LocalDateTime.now();
         User user = User.builder()
                 .email("complete@test.com")
@@ -208,7 +205,7 @@ class UserServiceIntegrationTest {
         // Act
         User result = userService.findById(savedUser.getId());
 
-        // Assert - Verify all fields
+        // Assert
         assertThat(result.getId()).isEqualTo(savedUser.getId());
         assertThat(result.getEmail()).isEqualTo("complete@test.com");
         assertThat(result.getFirstName()).isEqualTo("Complete");
@@ -234,7 +231,7 @@ class UserServiceIntegrationTest {
                 .build());
         Long userId = user.getId();
 
-        // Act - Delete then try to find
+        // Act 
         userService.delete(userId);
         User result = userService.findById(userId);
 

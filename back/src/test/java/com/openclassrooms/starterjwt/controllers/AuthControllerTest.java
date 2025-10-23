@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false) // <-- désactive les filtres de sécurité
+@AutoConfigureMockMvc(addFilters = false)
 class AuthControllerTest {
 
     @Autowired
@@ -72,10 +72,8 @@ class AuthControllerTest {
     // ================= LOGIN =================
     @Test
     void testLoginSuccess() throws Exception {
-        // Mock de l'authentification
         Authentication authentication = mock(Authentication.class);
 
-        // Création de UserDetailsImpl via le builder
         UserDetailsImpl userDetails = UserDetailsImpl.builder()
                 .id(user.getId())
                 .username(user.getEmail())
@@ -85,25 +83,23 @@ class AuthControllerTest {
                 .admin(user.isAdmin())
                 .build();
 
-        // Mock du comportement des beans
         when(authenticationManager.authenticate(any()))
                 .thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(userDetails);
         when(jwtUtils.generateJwtToken(authentication)).thenReturn("jwtToken");
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 
-        // Exécution du test
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").value("jwtToken"))        // ← token au lieu de jwt
-                .andExpect(jsonPath("$.type").value("Bearer"))           // ← nouveau champ
+                .andExpect(jsonPath("$.token").value("jwtToken"))       
+                .andExpect(jsonPath("$.type").value("Bearer"))           
                 .andExpect(jsonPath("$.id").value(user.getId()))
-                .andExpect(jsonPath("$.username").value(user.getEmail())) // ← username au lieu de email
+                .andExpect(jsonPath("$.username").value(user.getEmail())) 
                 .andExpect(jsonPath("$.firstName").value(user.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(user.getLastName()))
-                .andExpect(jsonPath("$.admin").value(user.isAdmin()));   // ← admin au lieu de isAdmin
+                .andExpect(jsonPath("$.admin").value(user.isAdmin()));   
     }
 
     @Test
@@ -122,7 +118,6 @@ class AuthControllerTest {
         when(authenticationManager.authenticate(any())).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(userDetails);
 
-        // Le repository retourne vide → user == null
         when(userRepository.findByEmail(userDetails.getUsername())).thenReturn(Optional.empty());
 
         when(jwtUtils.generateJwtToken(authentication)).thenReturn("jwtToken");
@@ -137,7 +132,7 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.username").value("notfound@example.com"))
                 .andExpect(jsonPath("$.firstName").value("John"))
                 .andExpect(jsonPath("$.lastName").value("Doe"))
-                .andExpect(jsonPath("$.admin").value(false)); // isAdmin reste false car user == null
+                .andExpect(jsonPath("$.admin").value(false)); 
     }
 
     // ================= REGISTER =================

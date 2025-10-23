@@ -102,7 +102,10 @@ To run live tests and open the Cypress graphical interface :
   cd front
   npm run cypress:open
   ```
-This command opens the Cypress GUI. The front server must be running.
+This command opens the Cypress GUI. 
+
+The front server must be running.
+
 In the interface :
 
   1. Select ***E2E*** ***testing***
